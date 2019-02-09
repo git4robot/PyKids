@@ -13,7 +13,7 @@ def is_arithmetic_progression(prog):
             return '不是'
     return '是'
  
-prog1 = [1,5,78234]
+prog1 = [1,5,9]
 prog2 = [1,2,3,4]
  
 print (is_arithmetic_progression(prog1))

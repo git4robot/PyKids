@@ -5,13 +5,11 @@ Created on Tue Jan 22 11:39:31 2019
 primes.py 
 素数有关的趣味问题
 寻找素数：效率比较
-1,孪生素数
-2,可逆素数
-3,回文素数
-4,平方回文素数
-5,梅森尼数
-6,金蝉素数
-7,等差素数数列
+1、孪生素数 o
+2、可逆素数 o
+3、回文素数 o
+4、平方回文素数 o
+5、等差素数数列
 
 @author: robot
 """
@@ -159,6 +157,7 @@ def timer(label):
         yield
     finally:
         end = time()
+        
     print(output.format(label=label, time=end-start))
     sys.stdout.flush()
 
@@ -172,9 +171,9 @@ def find_twins(n):
             break
         new_xp = xp + 2
         if new_xp == primes_n[ix+1]:
-            twin_primes[xp] = primes_n[ix+1] 
-    print(primes_n)
-    print(twin_primes)
+            twin_primes[xp] = primes_n[ix+1]
+            
+    print("孪生素数:",twin_primes)
     
 def find_reverse(n):
     primes_n = []
@@ -185,20 +184,52 @@ def find_reverse(n):
         reverse_num = int(str(xp)[::-1])
         if is_prime(reverse_num):
             reverse_primes[xp] = reverse_num
-    print(primes_n)
-    print(reverse_primes)
+
+    print("可逆素数：",reverse_primes)
+   
+        
+def find_palindromes(n):
+    primes_n = []
+    primes_n = sieve_primes_Eratosthenes(n)
+    #回文素数
+    palin_primes = {}
+    for ix,xp in enumerate(primes_n):
+        palin_num = int(str(xp)[::-1])
+        if is_prime(palin_num) and palin_num == xp and xp > 10:
+            palin_primes[xp] = palin_num
     
+    print("回文素数：")
+    for i in palin_primes:
+        print(i)
+        
+def find_palindromes_2(n):
+    primes_n = []
+    primes_n = sieve_primes_Eratosthenes(n)
+    #平方回文素数
+    primes = {}
+    for ix,xp in enumerate(primes_n):
+        squares = xp**2
+        palin = str(squares)[::-1]
+        if palin == str(squares) and xp > 10:
+            primes[xp] = xp
+    
+    print("平方回文素数：",)
+    for i in primes:
+        print(i,i**2)
+        
 def main():
     start_tm = time()
-    # find_twins(2500)
-    find_reverse(25000)
+    #find_twins(2500)
+    #find_reverse(2500)
+    find_palindromes_2(100000)
     
     print("耗时：%f" % (time() - start_tm))
     
     # Using 945M as a bound yields a CSV of primes that is 
     # just under the 512MB Kaggle Scripts disk limit
-    '''
-    mil = 1000000
+    
+'''
+   mil = 1000000
     upper_bound = (1000 - 55)*mil  
     
     file_multiprocess  = 'primes_multiprocess.csv'
@@ -217,7 +248,7 @@ def main():
     # with timer("Single-process primes calculation"):
     #    singleprocess_calc_primes(upper_bound, file_singleprocess)
     '''
-    print()
+    #print()
 
 
 if __name__ == '__main__':
