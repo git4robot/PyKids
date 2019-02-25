@@ -4,12 +4,13 @@ Created on Tue Jan 22 11:39:31 2019
 
 primes.py 
 素数有关的趣味问题
-寻找素数：效率比较
+寻找素数：
 1、孪生素数 o
 2、可逆素数 o
 3、回文素数 o
 4、平方回文素数 o
 5、等差素数数列
+上为找素数，下为素数有关的趣味问题
 
 @author: robot
 """
@@ -150,6 +151,7 @@ def multiprocess_calc_primes(n, n_processes, file_name):
 
 @contextmanager
 def timer(label):
+    
     # timer(), as suggested by Sang Han 
     output = '{label}: {time:03.3f} sec'
     start = time()
@@ -217,11 +219,28 @@ def find_palindromes_2(n):
     for i in primes:
         print(i,i**2)
         
+def find_arithmetic_primes_progression(n):
+    primes_n = []
+    primes_n = sieve_primes_Eratosthenes(n)
+    #等差素数数列
+    cnt = len(primes_n)
+    d = 2
+    while True:
+        for p in primes_n:
+            
+            
+
+       
+        
+    
+        
 def main():
     start_tm = time()
     #find_twins(2500)
     #find_reverse(2500)
-    find_palindromes_2(100000)
+    #find_palindromes(7500)
+    #find_palindromes_2(1000000)
+    find_arithmetic_primes_progression(10000)
     
     print("耗时：%f" % (time() - start_tm))
     
