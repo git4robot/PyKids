@@ -4,9 +4,8 @@ Created on Sat Feb  9 17:32:34 2019
 
 @author: Administrator
 """
-
-import random
 '''
+import random
 random.random()
 ch = ord('A')
 print(ch)
@@ -14,7 +13,7 @@ asc = chr(ch)
 print(asc)
 测试
 '''
-message = input('请输入:')
+message = input('请输入需加密或解密的内容:')
 message = message.upper()
 output = ""
 for letter in message:
@@ -25,4 +24,4 @@ for letter in message:
              value -= 26
              letter = chr(value)
      output += letter
-print('密码:',output)
+print('密文/原文:',output)

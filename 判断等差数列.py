@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan 23 20:54:29 2019
-妇女规划
 
 @author: Administrator
 """
