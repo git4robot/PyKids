@@ -8,11 +8,11 @@ import turtle
 import time
 
 turtle.setup(width=0.5,height=0.7)
-turtle.screensize(50,50,"green")
+turtle.screensize(50,50,"purple")
 turtle.pensize(5)
 turtle.speed(1)
 turtle.pencolor("yellow")
-turtle.fillcolor("red")
+turtle.fillcolor("blue")
 turtle.shape("turtle")
 
 turtle.begin_fill()
@@ -25,7 +25,7 @@ time.sleep(2)
 
 turtle.penup()
 turtle.goto(-150,-120)
-turtle.color("violet")
+turtle.color("grey")
 turtle.write("Done", font=('Arial', 40, 'normal'))
 time.sleep(1)
 
