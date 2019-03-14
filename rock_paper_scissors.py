@@ -37,6 +37,7 @@ while p_choice != quit:
             print('computer win!')
                 
     elif p_choice == 'quit':
+        print('Thanks for playing!')
         print('Good bye!')
         break
     
