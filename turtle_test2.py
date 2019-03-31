@@ -39,10 +39,10 @@ time.sleep(1)
 turtle.reset()  #清空窗口，重置turtle状态为起始状态
 turtle.pensize(3)
 turtle.pencolor("red")
-turtle.fillcolor("green")
-
 turtle.circle(45)
 time.sleep(1)
+turtle.fillcolor("green")
+
 turtle.clear()
 turtle.circle(120,180) # 半圆
 time.sleep(1)
