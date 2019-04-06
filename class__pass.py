@@ -5,28 +5,62 @@ Created on Wed Mar 20 20:55:35 2019
 @author: Robot
 """
 
-class things:
+class Things:
     pass
 
 
-class animate(things):
+class Animate(Things):
     pass
 
-class animals(animate):
+class Animals(Animate):
+    def breathe(self):
+        print('breathing')
+    def move(self):
+        print('moving')
+    def eat_food(self):
+        print('eating food')
+
+class Mammals(Animals):
     pass
 
-class mammals(animals):
+class Pandas(Mammals):
     pass
 
-class pandas(mammals):
-    pass
-
-class giraffes(mammals):
+class Giraffes(Mammals):
     pass
 
 
-class inanimate(things):
+class Inanimate(Things):
     pass
 
-class sidewalks(inanimate):
+class Sidewalks(Inanimate):
     pass
+
+class MyMath:
+    def Add(self,a,b):
+        return a+b
+    def Minus(self,a,b):
+        return a-b
+    def Div(self,a,b):
+        if b == 0:
+            print("Error, 0")
+            return 0
+        return a/b
+    
+    
+
+if __name__ == '__main__':
+    myMath = MyMath()
+    res = myMath.Add(10,20)
+    print(res)
+    res = myMath.Minus(20,10)
+    print(res)
+    res = myMath.Div(10,2)
+    print(res)
+    
+    '''
+    ani = Animals()
+    ani.breathe()
+    ani.eat_food()
+    ani.move()
+    '''
