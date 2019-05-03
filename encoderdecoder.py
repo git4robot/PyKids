@@ -28,4 +28,4 @@ for letter in message:
                 value -= 26            
                 letter = chr(value)  
         output += letter
-print("Output message: ", output.lower())
+print("Output message:", output.lower())
