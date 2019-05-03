@@ -1,48 +1,50 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Mar  2 11:14:11 2019
+Created on Wed May 1 12:25:00 2019
 
-@author: Administrator
+@author: Robin
 """
-import random
 
-choice = ['rock','paper','scissors']
-p_choice = input('What do you want to be?rock or paper or scissors?(or quit?)')
-com_choice = random.choice(choice)
-
-while p_choice != quit:
-    if p_choice == com_choice:
-            print('You chose ' + p_choice + ',and the computer chose '+ com_choice + '.')
-            print('It\'s a tie!')
-            
-    elif p_choice == 'rock':
-        print('You chose ' + p_choice + ',and the computer chose '+ com_choice + '.')
-        if com_choice == 'scissors':
-            print('player win!')
+import random #引入random模块
+choices = ['rock','paper','scissors']
+player = input('Do you want to be rock, paper, or scissors(or quit)?') #选择
+p_scores = 0.00 #保留两位小数
+com_scores = 0.0 #保留一位小数
+while player != 'quit': #是否退出
+    player = player.lower() #变成小写
+    com = random.choice(choices) #随机选取(计算机)
+    print('You chose '+player+', and the computer chose '+com+'.') #展示选择
+    if player == com:
+        print('It\'s a tie!') #平局
+        p_scores += 0.5 
+        com_scores += 0.5
+        #玩家和电脑各加0.5分
+    elif player == 'rock':
+        if com == 'scissors':
+            print('Player win!') #石头砸剪刀
+            p_scores += 1
         else:
-            print('computer win!')
-        
-    elif p_choice == 'paper':
-        print('You chose ' + p_choice + ',and the computer chose '+ com_choice + '.')
-        if com_choice == 'rock':
-            print('player win!')
+            print('Computer wins!') #布包石头
+            com_scores += 1
+    elif player == 'paper':
+        if com == 'rock':
+            print('Player win!') #布包石头
+            p_scores += 1
         else:
-            print('computer win!')
-        
-    elif p_choice == 'scissors':
-        print('You chose ' + p_choice + ',and the computer chose '+ com_choice + '.')
-        if com_choice == 'paper':
-            print('player win!')
+            print('Computer wins!') #剪刀剪布
+            com_scores += 1
+    elif player == 'scissors':
+        if com == 'paper':
+            print('Player win!') #剪刀剪布
+            p_scores += 1
         else:
-            print('computer win!')
-                
-    elif p_choice == 'quit':
-        print('Thanks for playing!')
-        print('Good bye!')
-        break
-    
+            print('Computer wins!') #石头砸剪刀
+            com_scores += 1
     else:
-        print('There was some sort of error...')
-        
-    p_choice = input('What do you want to be?rock or paper or scissors?(or quit?)')
-    com_choice = random.choice(choice)
+        print('I think there was some sort error...') #玩家输入了无法计算的信息
+        p_scores += 0.25 
+        com_scores += 0.5
+    print() #打印一行空格
+    player = input('Do you want to be rock,paper,or scissors(or quit)?') #再次选择
+print('Your score was:',p_scores,', and computer\'s score was:',com_scores,'.') #显示分数
+print('Thanks for playing!') #退出提示
