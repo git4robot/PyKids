@@ -8,7 +8,7 @@ Created on Wed May 1 12:25:00 2019
 import random #引入random模块
 choices = ['rock','paper','scissors']
 player = input('Do you want to be rock, paper, or scissors(or quit)?') #选择
-p_scores = 0.00 #保留两位小数
+p_scores = 0.0 #保留一位小数
 com_scores = 0.0 #保留一位小数
 while player != 'quit': #是否退出
     player = player.lower() #变成小写
@@ -42,8 +42,6 @@ while player != 'quit': #是否退出
             com_scores += 1
     else:
         print('I think there was some sort error...') #玩家输入了无法计算的信息
-        p_scores += 0.25 
-        com_scores += 0.5
     print() #打印一行空格
     player = input('Do you want to be rock,paper,or scissors(or quit)?') #再次选择
 print('Your score was:',p_scores,', and computer\'s score was:',com_scores,'.') #显示分数
