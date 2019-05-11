@@ -31,8 +31,8 @@ def sp2(): #彩色螺旋图形2
     turtle.done()
     
 def sp3(): #彩色螺旋图形3
-    sides = int(turtle.numinput('Title','How many sides do you want(2 - 6)?',5,2,6)) #范围在2到6，默认5
     colors = ['red','blue','purple','pink','orange','yellow']
+    sides = int(turtle.numinput('Title','How many sides do you want(2 - 6)?',5,2,6)) #范围在2到6，默认5
     for x in range(360):
         t.pencolor(colors[x % sides]) #选择颜色
         t.forward(x * 3 / sides + x)
@@ -97,4 +97,4 @@ def ksp(num1 = 15): #万花筒
         for m in range(size):
             t.forward(m*2)
             t.left(91)
-    turtle.done()
+    turtle.done()        

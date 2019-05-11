@@ -6,7 +6,7 @@ Created on Wed May 1 13:05:00 2019
 @author: Robin
 """
 
-import spiral as sp
+import spiral2 as sp
 #sp.sp1()
 #sp.sp2()
 #sp.sp3()
