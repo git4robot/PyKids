@@ -59,42 +59,53 @@ def rsp(num1 = 25): #随机螺旋图形
             t.left(91)
     turtle.done()
 
-def ksp(num1 = 15): #万花筒
+def ksp(num1 = 20): #万花筒
     '''
     num1 -- How many kaleidoscopes do you want(num1 * 4)
     '''
     colors = ["red", "yellow", "blue", "green", "orange", "purple", "white", "gray"]
     for n in range(num1):
         t.pencolor(random.choice(colors))
-        size = random.randint(10,40)
-        x = random.randrange(0,turtle.window_width()//2)
-        y = random.randrange(0,turtle.window_height()//2)
+        size = random.randint(15,40)
+        sides = random.randint(4,7)
+        thick = random.randint(1,4)
+        x = random.randrange(size,turtle.window_width()//2)
+        y = random.randrange(size,turtle.window_height()//2)
+        angle = t.heading()
         #第一个螺旋线
         t.penup()
         t.setpos(x,y)
         t.pendown()
+        t.width(thick)
+        t.setheading(angle)
         for m in range(size):
             t.forward(m*2)
-            t.left(91)
+            t.left(360 / sides + 1)
             #第二个螺旋线
         t.penup()
         t.setpos(-x,y)
         t.pendown()
+        t.width(thick)
+        t.setheading(180 - angle)
         for m in range(size):
             t.forward(m*2)
-            t.left(91)
+            t.left(360 / sides + 1)
             #第三个螺旋线
         t.penup()
         t.setpos(-x,-y)
         t.pendown()
+        t.width(thick)
+        t.setheading(angle - 180)
         for m in range(size):
             t.forward(m*2)
-            t.left(91)
+            t.left(360 / sides + 1)
             #第四个螺旋线
         t.penup()
         t.setpos(x,-y)
         t.pendown()
+        t.width(thick)
+        t.setheading(360 - angle)
         for m in range(size):
             t.forward(m*2)
-            t.left(91)
+            t.left(360 / sides + 1)
     turtle.done()        

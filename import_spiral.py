@@ -6,7 +6,7 @@ Created on Wed May 1 13:05:00 2019
 @author: Robin
 """
 
-import spiral2 as sp
+import spiral as sp
 #sp.sp1()
 #sp.sp2()
 #sp.sp3()
@@ -14,7 +14,7 @@ import spiral2 as sp
 #sp.ksp()
 
 #sp.rsp(30)
-#sp.ksp(10)
+#sp.ksp(15)
 
 '''
 from spiral import *

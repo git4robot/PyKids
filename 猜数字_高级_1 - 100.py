@@ -11,7 +11,7 @@ guess = int(input('Guess a number between 1 and 100:'))
 while guess != n:
     if guess > n:
         print(guess,'was too high.try again.')
-    if guess < n:
+    elif guess < n:
         print(guess,'was too low.try again.')
     guess = int(input('Guess again:'))
 print(guess,'was the number!you win!')

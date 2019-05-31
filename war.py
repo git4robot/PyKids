@@ -7,12 +7,13 @@ Created on Fri May 24 20:55:59 2019
 
 from random import choice
 from time import sleep
+from sys import stdin
 s = ['clubs','diamonds','hearts','spades']
 f = ['three','four','five','six','seven','eight','nine','ten','jack','queen','king','ace','two']
-p_s = 0
-c_s = 0
-t = 0
-for x in range(1,16):
+p_s = 0 #玩家的分数
+c_s = 0 #电脑的分数
+t = 0 #平局次数
+for x in range(1,27):
     ms = choice(s)
     mf = choice(f)
     ys = choice(s)
@@ -38,3 +39,4 @@ elif p_s < c_s:
     print('The computer\'s score was:',c_s + t,'.')
 else:
     print('It\'s a tie!')
+print('Thank you to play!')

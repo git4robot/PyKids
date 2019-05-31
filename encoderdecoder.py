@@ -5,7 +5,6 @@ Created on Fri May 3 18:15:00 2019
 @author: Robin
 """
 
-import warnings
 message = input("Enter a message to encode or decode: ") #得到信息
 key = eval(input("Enter a key value from 1-25: ")) #得到密钥值
 eod = input("Do you want to encode or decode?(e/d)") #选择加密或解密
