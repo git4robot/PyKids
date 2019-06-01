@@ -227,7 +227,7 @@ def find_arithmetic_primes_progression(n):
     d = 2
     while True:
         for p in primes_n:
-            
+            pass
             
 
        
@@ -240,7 +240,6 @@ def main():
     #find_reverse(2500)
     #find_palindromes(7500)
     #find_palindromes_2(1000000)
-    find_arithmetic_primes_progression(10000)
     
     print("耗时：%f" % (time() - start_tm))
     
