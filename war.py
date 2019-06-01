@@ -30,13 +30,13 @@ for x in range(1,27):
         print('It\'s a tie!')
         t += 1
     print()
-    sleep(0.25)
+    sleep(0.075)
 if p_s > c_s:
-    print('You win!')
+    print('You won this game!')
     print('Your score was:',p_s + t,'.')
 elif p_s < c_s:
-    print('The computer wins!')
+    print('The computer won this game!')
     print('The computer\'s score was:',c_s + t,'.')
 else:
-    print('It\'s a tie!')
+    print('It\'s a tie game!')
 print('Thank you to play!')
