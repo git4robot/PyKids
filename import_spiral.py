@@ -24,13 +24,12 @@ sp3()
 rsp()
 ksp()
 
-#sp.rsp(20)
-#sp.ksp(10)
+rsp(20)
+ksp(10)
 '''
 
 '''
 import spiral
-
 spiral.sp1()
 spiral.sp2()
 spiral.sp3()
