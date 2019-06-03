@@ -81,7 +81,7 @@ def ksp(num1 = 20): #万花筒
     for n in range(num1):
         t.pencolor(random.choice(colors))
         size = random.randint(15,30)
-        sides = random.randint(4,6)
+        sides = random.randint(4,7)
         thick = random.randint(1,3)
         x = random.randrange(size,turtle.window_width()//2)
         y = random.randrange(size,turtle.window_height()//2)
