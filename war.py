@@ -7,7 +7,6 @@ Created on Fri May 24 20:55:59 2019
 
 from random import choice
 from time import sleep
-from sys import stdin
 s = ['clubs','diamonds','hearts','spades']
 f = ['three','four','five','six','seven','eight','nine','ten','jack','queen','king','ace','two']
 p_s = 0 #玩家的分数
