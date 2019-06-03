@@ -8,7 +8,7 @@ Created on Sun Jun 1 07:45:00 2019
 '''A module to finds all kinds of primes'''
 from math import sqrt
 import numpy
-from time import time
+#from time import time
 def is_prime(n):
     for i in range(2,int(sqrt(n)+1)):
         if n % i == 0:
@@ -24,7 +24,7 @@ def sieve_primes_Eratosthenes(n):
             sieve[int(i*i/2) :: i] = False
             
     prime_indexes = numpy.nonzero(sieve)[0][1::]
-    primes  = 2 * prime_indexes.astype(numpy.int32) + 1 
+    primes = 2 * prime_indexes.astype(numpy.int32) + 1 
     return primes
 
 '''Before this string, the def don't work ----- After this string, the def can work'''
