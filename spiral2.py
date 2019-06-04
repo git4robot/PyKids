@@ -23,15 +23,15 @@ def sp1(): #彩色螺旋图形1
     
 def sp2(): #彩色螺旋图形2
     colors = ["red", "gray","yellow","blue","purple","green","orange","white","yellow"]
-    sides = int(turtle.numinput('Title','How many circles do you want(1 - 8)?',4,1,8)) #范围在1到8，默认4
+    sides = int(turtle.numinput('Title','How many sides do you want(1 - 8)?',8,1,8)) #范围在1到8，默认8
     '''
     sides -- How many sides does the spiral have
     '''
-    for x in range(180):
+    for x in range(360):
         t.pencolor(colors[x % sides]) #选择颜色
-        t.circle(x * 2 / sides + x)
-        t.left(360 / sides + 2)
-        t.width(x * sides / 150) #修改笔的粗细，增加宽度或厚度
+        t.forward(x * 2 / sides + x)
+        t.left(360 / sides + 1)
+        t.width(x * sides / 200) #修改笔的粗细，增加宽度或厚度
     turtle.done()
     
 def sp3(): #彩色螺旋图形3
