@@ -1,5 +1,5 @@
 
-from scipy.speical import *
+from scipy.special import *
 import math
 
 print(zeta(2,1))
