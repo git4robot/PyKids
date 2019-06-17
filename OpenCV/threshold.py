@@ -80,45 +80,88 @@ def test3():
 #########################################################################
 
 def angle_cos(p0, p1, p2):
-    d1, d2 = (p0-p1).astype('float'), (p2-p1).astype('float')
-    return abs( np.dot(d1, d2) / np.sqrt( np.dot(d1, d1)*np.dot(d2, d2) ) )
+	d1, d2 = (p0-p1).astype('float'), (p2-p1).astype('float')
+	return abs( np.dot(d1, d2) / np.sqrt( np.dot(d1, d1)*np.dot(d2, d2) ) )
 
 def find_squares(img):
-    img = cv2.GaussianBlur(img, (5, 5), 0)
-    squares = []
-    for gray in cv2.split(img):
-        for thrs in range(0, 255, 26):
-            if thrs == 0:
-                bin = cv2.Canny(gray, 0, 50, apertureSize=5)
-                bin = cv2.dilate(bin, None)
-            else:
-                _retval, bin = cv2.threshold(gray, thrs, 255, cv2.THRESH_BINARY)
-            contours, _hierarchy = cv2.findContours(bin, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-            for cnt in contours:
-                cnt_len = cv2.arcLength(cnt, True)
-                cnt = cv2.approxPolyDP(cnt, 0.02*cnt_len, True)
-                if len(cnt) == 4 and abs(cv2.contourArea(cnt)) < 1300 and abs(cv2.contourArea(cnt)) > 300 and cv2.isContourConvex(cnt):
-                    cnt = cnt.reshape(-1, 2)
-                    max_cos = np.max([angle_cos( cnt[i], cnt[(i+1) % 4], cnt[(i+2) % 4] ) for i in range(4)])
-                    if max_cos < 0.1:
-                        squares.append(cnt)
-    return squares
+	img = cv2.GaussianBlur(img, (5, 5), 0)
+	squares = []
+	for gray in cv2.split(img):
+		for thrs in range(0, 255, 26):
+			if thrs == 0:
+				bin = cv2.Canny(gray, 0, 50, apertureSize=5)
+				bin = cv2.dilate(bin, None)
+			else:
+				_retval, bin = cv2.threshold(gray, thrs, 255, cv2.THRESH_BINARY)
+			contours, _hierarchy = cv2.findContours(bin, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+			for cnt in contours:
+				cnt_len = cv2.arcLength(cnt, True)
+				cnt = cv2.approxPolyDP(cnt, 0.02*cnt_len, True)
+				if len(cnt) == 4 and abs(cv2.contourArea(cnt)) < 1300 and abs(cv2.contourArea(cnt)) > 300 and cv2.isContourConvex(cnt):
+					cnt = cnt.reshape(-1, 2)
+					max_cos = np.max([angle_cos( cnt[i], cnt[(i+1) % 4], cnt[(i+2) % 4] ) for i in range(4)])
+					if max_cos < 0.1:
+						squares.append(cnt)
+	return squares
 
 def main():
-    from glob import glob
-    for fn in glob('./00*.png'):
-        img = cv2.imread(fn)
-        squares = find_squares(img)
-        cv2.drawContours( img, squares, -1, (0, 255, 0), 3 )
-        cv2.imshow('squares', img)
-        ch = cv2.waitKey()
-        if ch == 27:
-            break
+	from glob import glob
+	for fn in glob('./00*.png'):
+		img = cv2.imread(fn)
+		squares = find_squares(img)
+		cv2.drawContours( img, squares, -1, (0, 255, 0), 3 )
+		cv2.imshow('squares', img)
+		ch = cv2.waitKey()
+		if ch == 27:
+			break
 
-    print('Done')
+	print('Done')
+
+def shapeDetect():
+	#Create MSER object
+	mser = cv2.MSER_create()
+
+	img_org = cv2.imread('./001.png')
+	
+	#crop subimage you want：crop_img = img[y:y+h, x:x+w]
+	x = 956
+	y = 555
+	w = 430
+	h = 70
+	img = img_org[y:y+h, x:x+w]
+	img = img_org
+	#Convert to gray scale
+	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	cv2.imshow('gray', gray)
+	cv2.waitKey(0)
+	
+	vis = img.copy()
+
+	#detect regions in gray scale image
+	regions, _ = mser.detectRegions(gray)
+	hulls = [cv2.convexHull(p.reshape(-1, 1, 2)) for p in regions]
+
+	cv2.polylines(vis, hulls, 1, (0, 255, 0))
+
+	cv2.imshow('img', vis)
+
+	cv2.waitKey(0)
+
+	mask = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.uint8)
+
+	for contour in hulls:
+		cv2.drawContours(mask, [contour], -1, (255, 255, 255), -1)
+
+	#this is used to find only text regions, remaining are ignored
+	text_only = cv2.bitwise_and(img, img, mask=mask)
+
+	cv2.imshow("text only", text_only)
+
+	cv2.waitKey(0)
 
 
 if __name__ == '__main__':
-    print(__doc__)
-    main()
-    cv2.destroyAllWindows()
+	print(__doc__)
+	shapeDetect()
+	#main()
+	cv2.destroyAllWindows()
