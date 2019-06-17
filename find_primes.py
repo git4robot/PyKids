@@ -4,8 +4,8 @@ Created on Sun Jun 1 07:45:00 2019
 
 @author: Robin
 """
-
 '''A module to finds all kinds of primes'''
+'''Version -- 2.5.5(at python 3+)'''
 from math import sqrt
 import numpy
 #from time import time
