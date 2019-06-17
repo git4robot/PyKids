@@ -129,7 +129,7 @@ def shapeDetect():
 	w = 430
 	h = 70
 	img = img_org[y:y+h, x:x+w]
-	img = img_org
+	#img = img_org
 	#Convert to gray scale
 	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	cv2.imshow('gray', gray)
