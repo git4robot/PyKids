@@ -121,7 +121,7 @@ def shapeDetect():
 	#Create MSER object
 	mser = cv2.MSER_create()
 
-	img_org = cv2.imread('./001.png')
+	img_org = cv2.imread('./003.png')
 	
 	#crop subimage you want：crop_img = img[y:y+h, x:x+w]
 	x = 956
