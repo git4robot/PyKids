@@ -1,5 +1,6 @@
 from tkinter import *
 tk = Tk()
+tk.title('line')
 def line():
    cav.create_line(0, 0, 500, 500)
    cav.create_line(0, 500, 500, 0)
