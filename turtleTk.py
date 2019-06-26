@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Created on Tue Jun 25 18:45:15 2019 China Shanghai
 Module Name: turtleTk
@@ -17,6 +17,7 @@ Argument:
     thick ----- The turtlepen's width(thick).
     outline ----- The turtlepen's color.
     fill ----- The picture's color.
+    color ----- The screen's bgcolor.
     size ----- The text's size.
     radius ----- The circle or semicircle's radius.
     up ----- The semicircle's degrees left or right(True/False(default)).
@@ -154,7 +155,6 @@ def one_random_rectangle():
     y22 = x22 + randrange(-50, 20)
     color = choice(colors)
     create_rectangle(x11, y11, x22, y22, fill = color)
-        
 
 def random_polygon(many = 75):
     from random import randint
