@@ -8,8 +8,8 @@ import time
 
 wday = ['一','二','三','四','五','六','日']
 t = time.localtime()
-in_t = input("请输入日期，(如2020 05 09 10:22:35)：")
-t = time.strptime(in_t, "%Y %m %d %H:%M:%S")
+in_t = input("请输入日期(如2020 05 09 10:22)：")
+t = time.strptime(in_t, "%Y %m %d %H:%M")
 #print(t)
 year = t[0]
 month = t[1]
@@ -19,7 +19,6 @@ minute = t[4]
 second = t[5]
 year_day = t[7]
 week_day = t[6]
-print(year,'年',month,'月',day,'日',hour,'点',minute,'分',second,'秒')
+print('%d 年 %d 月 %d 日 %d 点 %d 分' % (year, month, day, hour, minute))
 print()
-print(year,'年中的第',year_day,'天, 星期',wday[week_day])
-
+print(year,'年中的第',year_day,'天,星期%s' % wday[week_day])

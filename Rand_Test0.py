@@ -25,7 +25,7 @@ def drawResult():
     plt.show()
 
 
-for n in range(0, 100*len(rand_info)):
+for n in range(0, 100 * len(rand_info)):
     index = random.randint(1,9) - 1
     rand_info[index] = rand_info[index]+1
 print(rand_info)
