@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 """
-Created on Tue Jun 25 18:45:15 2019 China Shanghai
+Created on Tue Jun 25 18:45:15 2019
 Module Name: turtleTk
 @author: Robin
 """
