@@ -22,5 +22,5 @@ def copy_file(inn, outt):
     f.close()
 
 copy_file('d:\\text.txt', 'f:\\text_copy.txt')
-write_file('hihellopython, pygame, turtle, tkinter!', 'f:\\py.txt')
+write_file('hihellopython, pygame, turtle, tkinter, graphics!', 'f:\\py.txt')
 read_file('f:\\pyread.txt')
