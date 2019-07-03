@@ -10,13 +10,17 @@ import astar
 import cv2
 from PIL import Image, ImageDraw, ImageFont
 
+H_0 = 32
+W_0 = 32
+
 img_man = cv2.imread('man.png')
+img_man = cv2.resize(img_man, (W_0,H_0))
 img_flag = cv2.imread('flag.png')
+img_flag = cv2.resize(img_flag, (W_0,H_0))
 img_wall = cv2.imread('wall.png')
-(H_0,W_0) = img_wall.shape[:2]
 #img_wall = cv2.resize(img_wall, (int(H_0 / 2), int(W_0 / 2)))
-img_wall = cv2.resize(img_wall, (16, 16))
-(H_0,W_0) = img_wall.shape[:2]
+img_wall = cv2.resize(img_wall, (W_0,H_0))
+#(H_0,W_0) = img_wall.shape[:2]
 
 #读取一张图片，地址不能带中文
 img_bg = cv2.imread("house.png")
@@ -51,30 +55,29 @@ for i in range(2, nlabels):
 iMaxCnt = int(H_0*W_0*0.8)
 
 
-g_map = np.ones((grid_rows,grid_cols))
+g_map = np.ones((grid_rows,grid_cols), dtype=np.int32)
 p_from = (0,0)
 p_to = (0,0)
 
 work_grids = []
-for y in range(0,H-H_0,H_0):
-	for x in range(0,W-W_0,W_0):
-		g_x = int(x / W_0)
-		g_y = int(y / H_0)
-		#if labels[y,x] == max_label and (g_x,g_y) not in work_grids:
-		#	work_grids.append((g_x,g_y))
+for r in range(0,H-H_0,H_0):
+	row = int(r / H_0)
+	for c in range(0,W-W_0,W_0):
+		col = int(c / W_0)
 		iCnt = 0
 		for ro in range(0,H_0):
 			for co in range(0,W_0):
-				if labels[y+ro,x+co] == max_label:
+				if labels[r+ro,c+co] == max_label:
 					iCnt = iCnt + 1
 
 		#if iCnt > 32: print((g_x,g_y),iCnt)
 		if iCnt > iMaxCnt:
-			work_grids.append((g_x,g_y))
-			g_map[g_y][g_x] = 0
+			work_grids.append((row,col))
+			g_map[row][col] = 0
 
 print(g_map)
-#print(work_grids)
+print("grids")
+print(work_grids)
 '''
 # black-white image for test
 img2 = np.zeros(labels.shape)
@@ -112,44 +115,49 @@ for x,y,title in titles_list:
 img_add_new = cv2.cvtColor(np.asarray(img_PIL),cv2.COLOR_RGB2BGR)
 img_add_new_copy = img_add_new.copy()
 
-def on_EVENT_LBUTTONDOWN(event, x, y, flags, param):
-	global fromIsSet
+def on_EVENT_BUTTON(event, x, y, flags, param):
 	global p_from
 	global p_to
 
-	x_n = int(x / W_0)
-	y_n = int(y / H_0)
-
+	row = int(y / H_0)
+	col = int(x / W_0)
 
 	if event == cv2.EVENT_RBUTTONDOWN:
-		if (x_n,y_n) not in work_grids:
+		if (row,col) not in work_grids:
 			return
 		if p_to[0] > 0 and p_to[1] > 0:   #clear
-			img_add_new[p_to[1]*H_0:p_to[1]*H_0+H_0, p_to[0]*H_0:p_to[0]*H_0+W_0] = img_add_new_copy[p_to[1]*H_0:p_to[1]*H_0+H_0, p_to[0]*H_0:p_to[0]*H_0+W_0]
-		img_add_new[y_n*H_0:y_n*H_0+H_0, x_n*W_0:x_n*W_0+W_0] = img_flag
-		p_to = (x_n,y_n)
+			h = p_to[0]*H_0
+			w = p_to[1]*W_0
+			img_add_new[h:h+H_0, w:w+W_0] = img_add_new_copy[h:h+H_0, w:w+W_0]
+		img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_flag
+		p_to = (row,col)
 		cv2.imshow("AStar", img_add_new)
-	elif event == cv2.EVENT_MBUTTONDOWN:  #中键放开
-		if (x_n,y_n) not in work_grids:
+	elif event == cv2.EVENT_LBUTTONDOWN: 
+		if (row,col) not in work_grids:
 			return
 		if p_from[0] > 0 and p_from[1] > 0:   #clear
-			img_add_new[p_from[1]*H_0:p_from[1]*H_0+H_0, p_from[0]*H_0:p_from[0]*H_0+W_0] = img_add_new_copy[p_from[1]*H_0:p_from[1]*H_0+H_0, p_from[0]*H_0:p_from[0]*H_0+W_0]
-		img_add_new[y_n*H_0:y_n*H_0+H_0, x_n*W_0:x_n*W_0+W_0] = img_man
-		p_from = (x_n,y_n)
+			h = p_from[0]*H_0
+			w = p_from[1]*W_0
+			img_add_new[h:h+H_0, w:w+W_0] = img_add_new_copy[h:h+H_0, w:w+W_0]
+		img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_man
+		p_from = (row,col)
 		cv2.imshow("AStar", img_add_new)
 	elif event == cv2.EVENT_RBUTTONDBLCLK:
 		print("Right Button Double Click")
 	elif event == cv2.EVENT_LBUTTONDBLCLK:
 		print("Left Button Double Click")
-	elif event == cv2.EVENT_LBUTTONDOWN:
-		if (x_n,y_n) not in work_grids:
+	elif event == cv2.EVENT_MBUTTONDOWN:
+		if (row, col) not in work_grids:
 			return
 		#xy = "%d,%d" % (x, y)
 		#print(thresh[y,x])
-		print(int(x / W_0),int(y / H_0))
-		if (int(x / W_0),int(y / H_0)) in work_grids:
-			img_add_new[y:y+H_0, x:x+W_0] = img_wall
-			cv2.imshow("AStar", img_add_new)
+		if g_map[row][col] == 0:
+			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_wall
+			g_map[row][col] = 1
+		else:
+			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_add_new_copy[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0]
+			g_map[row][col] = 0
+		cv2.imshow("AStar", img_add_new)
 		'''
 		#cv2.circle(img_bg, (x, y), 1, (255, 0, 0), thickness=-1)
 		#cv2.putText(img_bg, xy, (x, y), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 0), thickness=1)
@@ -164,7 +172,7 @@ def on_EVENT_LBUTTONDOWN(event, x, y, flags, param):
 
 #创建一个窗口，中文显示会出乱码
 cv2.namedWindow("AStar", cv2.WINDOW_AUTOSIZE)
-cv2.setMouseCallback("AStar", on_EVENT_LBUTTONDOWN)
+cv2.setMouseCallback("AStar", on_EVENT_BUTTON)
 
 #显示图片，参数：（窗口标识字符串，imread读入的图像）
 for i in range(0,1):
@@ -173,12 +181,12 @@ for i in range(0,1):
 	cv2.imshow("AStar",img_add_new)
 	cv2.waitKey(600)
 
-for x,y in work_grids:
-	y0 = y*H_0
-	x0 = x*W_0
-	img_add_copy[y0:y0+H_0, x0:x0+W_0] = img_wall
+for r,c in work_grids:
+	ro = r*H_0
+	co = c*W_0
+	img_add_copy[ro:ro+H_0, co:co+W_0] = img_wall
 
-#cv2.imshow("img_add_copy",img_add_copy)
+cv2.imshow("img_add_copy",img_add_copy)
 
 #pts = numpy.array([[300,300],[300,340],[350,320]],numpy.int32)  #用numpy形成坐标列表
 #cv2.polylines(img,[pts],True,(0,255,255),2)  #画多边形
@@ -193,17 +201,22 @@ while True:
 		if p_from[0] == 0 or p_from[1] == 0 or p_to[0] == 0 or p_to[1] == 0:
 			print("start and end not setting.")
 			continue
-		print(p_from,p_to)
+		
 		map_res = astar.astar(g_map, p_from, p_to)
 		print(map_res)
+		print(p_from,p_to)
 		if len(map_res) == 0:
 			continue
+		map_res.reverse()
 		last_p = map_res[0]
-		for px,py in map_res[1:]:
-			img_add_new[last_p	[1]*H_0:last_p	[1]*H_0+H_0, last_p	[0]*H_0:last_p	[0]*H_0+W_0] = img_add_new_copy[last_p	[1]*H_0:last_p	[1]*H_0+H_0, last_p	[0]*H_0:last_p	[0]*H_0+W_0]
-			img_add_new[py*H_0:py*H_0+H_0, px*W_0:px*W_0+W_0] = img_man
+		for row,col in map_res[1:]:
+			print(row,col)
+			pre_ro = last_p[0]*H_0
+			pre_co = last_p[1]*W_0
+			#[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0] = img_add_new_copy[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0]
+			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_man
 			cv2.imshow("AStar", img_add_new)
-			last_p = (px,py)
+			last_p = (row,col)
 			cv2.waitKey(300)
 
 	elif cv2.waitKey(0) == 27:
