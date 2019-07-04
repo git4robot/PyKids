@@ -10,8 +10,8 @@ import astar
 import cv2
 from PIL import Image, ImageDraw, ImageFont
 
-H_0 = 64
-W_0 = 64
+H_0 = 16
+W_0 = 16
 
 img_man = cv2.imread('man.png')
 img_man = cv2.resize(img_man, (W_0,H_0))
@@ -53,12 +53,12 @@ for i in range(2, nlabels):
 		max_size = sizes[i]
 
 iMaxCnt = int(H_0*W_0*0.8)
-
-
+g_map = astar.Array2D(grid_cols,grid_rows)
 #g_map = np.ones((grid_rows,grid_cols), dtype=np.int32)
-g_map = np.full((grid_rows,grid_cols), None)
+#g_map = np.full((grid_cols, grid_rows), None)
 p_from = (0,0)
 p_to = (0,0)
+map_res = []
 
 work_grids = []
 for r in range(0,H-H_0,H_0):
@@ -74,10 +74,9 @@ for r in range(0,H-H_0,H_0):
 		#if iCnt > 32: print((g_x,g_y),iCnt)
 		if iCnt > iMaxCnt:
 			work_grids.append((row,col))
-			g_map[row][col] = 0
+			g_map[col][row] = 0
 
-print(g_map)
-#print("grids")
+#print(g_map)
 #print(work_grids)
 '''
 # black-white image for test
@@ -114,6 +113,12 @@ for x,y,title in titles_list:
 
 # 转换回OpenCV格式
 img_add_new = cv2.cvtColor(np.asarray(img_PIL),cv2.COLOR_RGB2BGR)
+#绘制空白区域方格
+for r,c in work_grids:
+	ro = r*H_0
+	co = c*W_0
+	cv2.rectangle(img_add_new,(co,ro),(co+W_0,ro+H_0),(255,255,255), 1)
+
 img_add_new_copy = img_add_new.copy()
 
 def on_EVENT_BUTTON(event, x, y, flags, param):
@@ -127,21 +132,21 @@ def on_EVENT_BUTTON(event, x, y, flags, param):
 		if (row,col) not in work_grids:
 			return
 		if p_to[0] > 0 and p_to[1] > 0:   #clear
-			h = p_to[0]*H_0
-			w = p_to[1]*W_0
+			w = p_to[0]*W_0
+			h = p_to[1]*H_0
 			img_add_new[h:h+H_0, w:w+W_0] = img_add_new_copy[h:h+H_0, w:w+W_0]
 		img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_flag
-		p_to = (row,col)
+		p_to = (col,row)
 		cv2.imshow("AStar", img_add_new)
 	elif event == cv2.EVENT_LBUTTONDOWN:
 		if (row,col) not in work_grids:
 			return
 		if p_from[0] > 0 and p_from[1] > 0:   #clear
-			h = p_from[0]*H_0
-			w = p_from[1]*W_0
+			w = p_from[0]*W_0
+			h = p_from[1]*H_0
 			img_add_new[h:h+H_0, w:w+W_0] = img_add_new_copy[h:h+H_0, w:w+W_0]
 		img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_man
-		p_from = (row,col)
+		p_from = (col,row)
 		cv2.imshow("AStar", img_add_new)
 	elif event == cv2.EVENT_RBUTTONDBLCLK:
 		print("Right Button Double Click")
@@ -152,12 +157,12 @@ def on_EVENT_BUTTON(event, x, y, flags, param):
 			return
 		#xy = "%d,%d" % (x, y)
 		#print(thresh[y,x])
-		if g_map[row][col] is not None:
+		if g_map[col][row] == 0:
 			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_wall
-			g_map[row][col] = None
+			g_map[col][row] = 1
 		else:
 			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_add_new_copy[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0]
-			g_map[row][col] = 0
+			g_map[col][row] = 0
 		cv2.imshow("AStar", img_add_new)
 		'''
 		#cv2.circle(img_bg, (x, y), 1, (255, 0, 0), thickness=-1)
@@ -187,11 +192,10 @@ for r,c in work_grids:
 	co = c*W_0
 	img_add_copy[ro:ro+H_0, co:co+W_0] = img_wall
 
-cv2.imshow("img_add_copy",img_add_copy)
+#cv2.imshow("img_add_copy",img_add_copy)
 
 #pts = numpy.array([[300,300],[300,340],[350,320]],numpy.int32)  #用numpy形成坐标列表
 #cv2.polylines(img,[pts],True,(0,255,255),2)  #画多边形
-
 
 #窗口等待任意键盘按键输入,0为一直等待,其他数字为毫秒数
 cv2.waitKey(0)
@@ -202,25 +206,49 @@ while True:
 		if p_from[0] == 0 or p_from[1] == 0 or p_to[0] == 0 or p_to[1] == 0:
 			print("start and end not setting.")
 			continue
-
+		'''	
 		#map_res = astar_0.astar(g_map, p_from, p_to)
 		astar = astar.Astar(g_map)
 		map_res = astar.run(p_from, p_to)
 		print(map_res)
+		'''
+		#g_map.showArray2D()
+		#创建AStar对象,并设置起点为0,0终点为9,0
+		aStar=astar.AStar(g_map,astar.Point(p_from[0],p_from[1]),astar.Point(p_to[0],p_to[1]))
+		#开始寻路
+		map_res=aStar.start()
+		if map_res is None or len(map_res) == 0:
+			print("Path Not Found!")
+			continue
+			
 		if map_res is None or len(map_res) == 0:
 			continue
 		#map_res.reverse()
 		last_p = map_res[0]
-		for row,col in map_res[1:]:
+		for point in map_res:
+		#for col,row in map_res[1:]:
 			#print(row,col)
-			pre_ro = last_p[0]*H_0
-			pre_co = last_p[1]*W_0
+			'''
+			row = point.y
+			col = point.x
+			pre_co = last_p.x*W_0
+			pre_ro = last_p.y*H_0
 			#img_add_new[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0] = img_add_new_copy[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0]
 			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_man
+			'''
+			p_center = (point.x*W_0+int(W_0/2), point.y*H_0+int(H_0/2))
+			cv2.circle(img_add_new, p_center, 3, (0,0,255), thickness=-1)
 			cv2.imshow("AStar", img_add_new)
-			last_p = (row,col)
-			cv2.waitKey(200)
-
+			last_p = astar.Point(col,row)
+			cv2.waitKey(10)
+	elif cv2.waitKey(0) == 99:
+		if map_res is None or len(map_res) == 0:
+			continue
+		for point in map_res[0:len(map_res)-1]:
+			row = point.y*H_0
+			col = point.x*W_0			
+			img_add_new[row:row+H_0, col:col+W_0] = img_add_new_copy[row:row+H_0, col:col+W_0]
+			cv2.imshow("AStar", img_add_new)	
 	elif cv2.waitKey(0) == 27:
 		break
 
