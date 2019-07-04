@@ -181,7 +181,7 @@ cv2.namedWindow("AStar", cv2.WINDOW_AUTOSIZE)
 cv2.setMouseCallback("AStar", on_EVENT_BUTTON)
 
 #显示图片，参数：（窗口标识字符串，imread读入的图像）
-for i in range(0,2):
+for i in range(0,3):
 	cv2.imshow("AStar",img_bg)
 	cv2.waitKey(400)
 	cv2.imshow("AStar",img_add_new)
@@ -201,7 +201,7 @@ for r,c in work_grids:
 cv2.waitKey(0)
 while True:
 	if cv2.waitKey(0) == 13:
-		print("running...")
+		print("AStar searching...")
 		#执行路径查找
 		if p_from[0] == 0 or p_from[1] == 0 or p_to[0] == 0 or p_to[1] == 0:
 			print("start and end not setting.")
