@@ -200,7 +200,9 @@ for r,c in work_grids:
 #窗口等待任意键盘按键输入,0为一直等待,其他数字为毫秒数
 cv2.waitKey(0)
 while True:
-	if cv2.waitKey(0) == 13:
+	key = cv2.waitKey(0)
+	#print("Key: {0}".format(key))
+	if key == 13:
 		print("AStar searching...")
 		#执行路径查找
 		if p_from[0] == 0 or p_from[1] == 0 or p_to[0] == 0 or p_to[1] == 0:
@@ -241,7 +243,7 @@ while True:
 			cv2.imshow("AStar", img_add_new)
 			last_p = astar.Point(col,row)
 			cv2.waitKey(10)
-	elif cv2.waitKey(0) == 99:
+	elif key == 99:
 		if map_res is None or len(map_res) == 0:
 			continue
 		for point in map_res[0:len(map_res)-1]:
@@ -249,7 +251,7 @@ while True:
 			col = point.x*W_0			
 			img_add_new[row:row+H_0, col:col+W_0] = img_add_new_copy[row:row+H_0, col:col+W_0]
 			cv2.imshow("AStar", img_add_new)	
-	elif cv2.waitKey(0) == 27:
+	elif key == 27:
 		break
 
 #销毁窗口，退出程序
