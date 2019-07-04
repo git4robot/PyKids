@@ -10,8 +10,8 @@ import astar
 import cv2
 from PIL import Image, ImageDraw, ImageFont
 
-H_0 = 32
-W_0 = 32
+H_0 = 64
+W_0 = 64
 
 img_man = cv2.imread('man.png')
 img_man = cv2.resize(img_man, (W_0,H_0))
@@ -55,7 +55,8 @@ for i in range(2, nlabels):
 iMaxCnt = int(H_0*W_0*0.8)
 
 
-g_map = np.ones((grid_rows,grid_cols), dtype=np.int32)
+#g_map = np.ones((grid_rows,grid_cols), dtype=np.int32)
+g_map = np.full((grid_rows,grid_cols), None)
 p_from = (0,0)
 p_to = (0,0)
 
@@ -76,8 +77,8 @@ for r in range(0,H-H_0,H_0):
 			g_map[row][col] = 0
 
 print(g_map)
-print("grids")
-print(work_grids)
+#print("grids")
+#print(work_grids)
 '''
 # black-white image for test
 img2 = np.zeros(labels.shape)
@@ -132,7 +133,7 @@ def on_EVENT_BUTTON(event, x, y, flags, param):
 		img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_flag
 		p_to = (row,col)
 		cv2.imshow("AStar", img_add_new)
-	elif event == cv2.EVENT_LBUTTONDOWN: 
+	elif event == cv2.EVENT_LBUTTONDOWN:
 		if (row,col) not in work_grids:
 			return
 		if p_from[0] > 0 and p_from[1] > 0:   #clear
@@ -151,9 +152,9 @@ def on_EVENT_BUTTON(event, x, y, flags, param):
 			return
 		#xy = "%d,%d" % (x, y)
 		#print(thresh[y,x])
-		if g_map[row][col] == 0:
+		if g_map[row][col] is not None:
 			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_wall
-			g_map[row][col] = 1
+			g_map[row][col] = None
 		else:
 			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_add_new_copy[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0]
 			g_map[row][col] = 0
@@ -201,23 +202,24 @@ while True:
 		if p_from[0] == 0 or p_from[1] == 0 or p_to[0] == 0 or p_to[1] == 0:
 			print("start and end not setting.")
 			continue
-		
-		map_res = astar.astar(g_map, p_from, p_to)
+
+		#map_res = astar_0.astar(g_map, p_from, p_to)
+		astar = astar.Astar(g_map)
+		map_res = astar.run(p_from, p_to)
 		print(map_res)
-		print(p_from,p_to)
-		if len(map_res) == 0:
+		if map_res is None or len(map_res) == 0:
 			continue
-		map_res.reverse()
+		#map_res.reverse()
 		last_p = map_res[0]
 		for row,col in map_res[1:]:
-			print(row,col)
+			#print(row,col)
 			pre_ro = last_p[0]*H_0
 			pre_co = last_p[1]*W_0
-			#[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0] = img_add_new_copy[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0]
+			#img_add_new[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0] = img_add_new_copy[pre_ro:pre_ro+H_0, pre_co:pre_co+W_0]
 			img_add_new[row*H_0:row*H_0+H_0, col*W_0:col*W_0+W_0] = img_man
 			cv2.imshow("AStar", img_add_new)
 			last_p = (row,col)
-			cv2.waitKey(300)
+			cv2.waitKey(200)
 
 	elif cv2.waitKey(0) == 27:
 		break
