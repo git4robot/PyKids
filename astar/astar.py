@@ -158,10 +158,14 @@ class AStar:
             self.closeList.append(minF)
             self.openList.remove(minF)
             # 判断这个节点的上下左右节点
-            self.searchNear(minF, 0, -1)
+            self.searchNear(minF, 0, -1)   
+            self.searchNear(minF, 1, -1)  
+            self.searchNear(minF, 1, 0)    
+            self.searchNear(minF, 1, 1)   
             self.searchNear(minF, 0, 1)
+            self.searchNear(minF, -1, 1)
             self.searchNear(minF, -1, 0)
-            self.searchNear(minF, 1, 0)
+            self.searchNear(minF, -1, -1)
             # 判断是否终止
             point = self.endPointInCloseList()
             if point:  # 如果终点在关闭表中，就返回结果
