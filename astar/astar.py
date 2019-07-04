@@ -1,83 +1,101 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jul  2 16:01:08 2019
-# Author: Christian Careaga (christian.careaga7@gmail.com)
-# A* Pathfinding in Python (2.7)
-# Please give credit if used
-"""
+class Astar:
 
-import numpy
-from heapq import *
+    def __init__(self, matrix):
+        self.mat = self.prepare_matrix(matrix)
 
-def heuristic(a, b):
-	return (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2
+    class Node:
+        def __init__(self, x, y, weight=0):
+            self.x = x
+            self.y = y
+            self.weight = weight
+            self.heuristic = 0
+            self.parent = None
 
-def astar(array, start, goal):
-	data = []
+        def __repr__(self):
+            return str(self.weight)
 
-	neighbors = [(0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+    def print(self):
+        for y in self.mat:
+            print(y)
 
-	close_set = set()
-	came_from = {}
-	gscore = {start:0}
-	fscore = {start:heuristic(start, goal)}
-	oheap = []
+    def prepare_matrix(self, mat):
+        matrix_for_astar = []
+        for y, line in enumerate(mat):
+            tmp_line = []
+            for x, weight in enumerate(line):
+                tmp_line.append(self.Node(x, y, weight=weight))
+            matrix_for_astar.append(tmp_line)
+        return matrix_for_astar
 
-	heappush(oheap, (fscore[start], start))
+    def equal(self, current, end):
+        return current.x == end.x and current.y == end.y
 
-	while oheap:
+    def heuristic(self, current, other):
+        return abs(current.x - other.x) + abs(current.y - other.y)
 
-		current = heappop(oheap)[1]
+    def neighbours(self, matrix, current):
+        neighbours_list = []
+        if current.x - 1 >= 0 and current.y - 1 >= 0 and matrix[current.y - 1][current.x - 1].weight is not None:
+            neighbours_list.append(matrix[current.y - 1][current.x - 1])
+        if current.x - 1 >= 0 and matrix[current.y][current.x - 1].weight is not None:
+            neighbours_list.append(matrix[current.y][current.x - 1])
+        if current.x - 1 >= 0 and current.y + 1 < len(matrix) and matrix[current.y + 1][
+            current.x - 1].weight is not None:
+            neighbours_list.append(matrix[current.y + 1][current.x - 1])
+        if current.y - 1 >= 0 and matrix[current.y - 1][current.x].weight is not None:
+            neighbours_list.append(matrix[current.y - 1][current.x])
+        if current.y + 1 < len(matrix) and matrix[current.y + 1][current.x].weight is not None:
+            neighbours_list.append(matrix[current.y + 1][current.x])
+        if current.x + 1 < len(matrix[0]) and current.y - 1 >= 0 and matrix[current.y - 1][
+            current.x + 1].weight is not None:
+            neighbours_list.append(matrix[current.y - 1][current.x + 1])
+        if current.x + 1 < len(matrix[0]) and matrix[current.y][current.x + 1].weight is not None:
+            neighbours_list.append(matrix[current.y][current.x + 1])
+        if current.x + 1 < len(matrix[0]) and current.y + 1 < len(matrix) and matrix[current.y + 1][
+            current.x + 1].weight is not None:
+            neighbours_list.append(matrix[current.y + 1][current.x + 1])
+        return neighbours_list
 
-		if current == goal:
+    def build(self, end):
+        node_tmp = end
+        path = []
+        while (node_tmp):
+            path.append([node_tmp.x, node_tmp.y])
+            node_tmp = node_tmp.parent
+        return list(reversed(path))
 
-			while current in came_from:
-				data.append(current)
-				current = came_from[current]
-			return data
+    def run(self, point_start, point_end):
+        matrix = self.mat
+        start = self.Node(point_start[0], point_start[1])
+        end = self.Node(point_end[0], point_end[1])
+        closed_list = []
+        open_list = [start]
 
-		close_set.add(current)
-		for i, j in neighbors:
-			neighbor = current[0] + i, current[1] + j
-			tentative_g_score = gscore[current] + heuristic(current, neighbor)
-			if 0 <= neighbor[0] < array.shape[0]:
-				if 0 <= neighbor[1] < array.shape[1]:
-					if array[neighbor[0]][neighbor[1]] == 1:
-						continue
-				else:
-					# array bound y walls
-					continue
-			else:
-				# array bound x walls
-				continue
+        while open_list:
+            current_node = open_list.pop()
 
-			if neighbor in close_set and tentative_g_score >= gscore.get(neighbor, 0):
-				continue
+            for node in open_list:
+                if node.heuristic < current_node.heuristic:
+                    current_node = node
 
-			if  tentative_g_score < gscore.get(neighbor, 0) or neighbor not in [i[1]for i in oheap]:
-				came_from[neighbor] = current
-				gscore[neighbor] = tentative_g_score
-				fscore[neighbor] = tentative_g_score + heuristic(neighbor, goal)
-				heappush(oheap, (fscore[neighbor], neighbor))
+            if self.equal(current_node, end):
+                return self.build(current_node)
 
-	return data
+            for node in open_list:
+                if self.equal(current_node, node):
+                    open_list.remove(node)
+                    break
 
+            closed_list.append(current_node)
 
-'''Here is an example of using my algo with a numpy array,
-   astar(array, start, destination)
-   astar function returns a list of points (shortest path)'''
-def test():
-	nmap = numpy.array([
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[1,0,1,1,1,1,1,1,1,1,1,1,1,1],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[1,0,1,1,1,1,1,1,1,1,1,1,1,1],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[1,1,1,1,1,1,1,1,1,1,1,1,0,1],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[1,0,1,1,1,1,1,1,1,1,1,1,1,1],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[1,1,1,1,1,1,1,1,1,1,1,1,0,1],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0]])
+            for neighbour in self.neighbours(matrix, current_node):
+                if neighbour in closed_list:
+                    continue
+                if neighbour.heuristic < current_node.heuristic or neighbour not in open_list:
+                    neighbour.heuristic = neighbour.weight + self.heuristic(neighbour, end)
+                    neighbour.parent = current_node
+                if neighbour not in open_list:
+                    open_list.append(neighbour)
 
-	print(astar(nmap, (0,0), (10,13)))
+        return None
+
