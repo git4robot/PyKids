@@ -33,6 +33,7 @@ img_copy = img_bg.copy()
 img_gray = cv2.cvtColor(img_copy, cv2.COLOR_BGR2GRAY)
 thresh=cv2.threshold(img_gray,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 #cv2.imshow('captcha', thresh)
+#cv2.waitKey()
 
 nlabels, labels, stats, centroids = cv2.connectedComponentsWithStats(thresh , 4 , cv2.CV_32S)
 lblareas = stats[1:,cv2.CC_STAT_AREA]
@@ -78,6 +79,7 @@ for r in range(0,H-H_0,H_0):
 
 #print(g_map)
 #print(work_grids)
+
 '''
 # black-white image for test
 img2 = np.zeros(labels.shape)
@@ -86,6 +88,7 @@ cv2.imshow("Biggest component", img2)
 cv2.imwrite("biggest.png",img2)
 cv2.waitKey()
 '''
+
 mask_color = img_bg.copy()
 mask_color[labels == max_label] = (0, 255, 0)
 #cv2.imshow("color mask", mask_color)
@@ -187,12 +190,14 @@ for i in range(0,3):
 	cv2.imshow("AStar",img_add_new)
 	cv2.waitKey(600)
 
+'''
 for r,c in work_grids:
 	ro = r*H_0
 	co = c*W_0
 	img_add_copy[ro:ro+H_0, co:co+W_0] = img_wall
 
-#cv2.imshow("img_add_copy",img_add_copy)
+cv2.imshow("img_add_copy",img_add_copy)
+'''
 
 #pts = numpy.array([[300,300],[300,340],[350,320]],numpy.int32)  #用numpy形成坐标列表
 #cv2.polylines(img,[pts],True,(0,255,255),2)  #画多边形
@@ -214,6 +219,12 @@ while True:
 		map_res = astar.run(p_from, p_to)
 		print(map_res)
 		'''
+		if map_res is not None and len(map_res) > 0:
+			for point in map_res[0:len(map_res)-1]:
+				row = point.y*H_0
+				col = point.x*W_0			
+				img_add_new[row:row+H_0, col:col+W_0] = img_add_new_copy[row:row+H_0, col:col+W_0]
+			map_res.clear()
 		#g_map.showArray2D()
 		#创建AStar对象,并设置起点为0,0终点为9,0
 		aStar=astar.AStar(g_map,astar.Point(p_from[0],p_from[1]),astar.Point(p_to[0],p_to[1]))
@@ -250,7 +261,10 @@ while True:
 			row = point.y*H_0
 			col = point.x*W_0			
 			img_add_new[row:row+H_0, col:col+W_0] = img_add_new_copy[row:row+H_0, col:col+W_0]
-			cv2.imshow("AStar", img_add_new)	
+		map_res.clear()
+		cv2.imshow("AStar", img_add_new)	
+	elif key == 97:
+		cv2.imwrite("out.png", img_add_new)
 	elif key == 27:
 		break
 
