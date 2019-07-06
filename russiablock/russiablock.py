@@ -142,7 +142,7 @@ class Game:
         self.getNew = self.shapeDict[self.next]
         getNew = self.getNew
         core = [4,-2]
-        time = 0.2
+        time = 0.5
         isDrawSmall = True
         
         while self.canMove():
@@ -151,18 +151,19 @@ class Game:
                 self.next = randrange(1,8)
                 self.drawSmallNext(self.next - 1)
                 isDrawSmall = False
-                
+            
             if isPause:
                 core[1] += 1
                 self.drawSquare()
                 if self.isFaster:
-                    sleep(0)
+                    sleep(0.01)
                 else:
                     sleep(time+0.12)
-                self.isFaster = False    
+                #self.isFaster = False    
             else:
                 self.drawSquare()
                 sleep(time)
+        self.isFaster = False    
         self.getLocation()        
         
         
