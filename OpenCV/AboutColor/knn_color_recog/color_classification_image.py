@@ -30,14 +30,8 @@ else:
 # get the prediction
 color_histogram_feature_extraction.color_histogram_of_test_image(source_image)
 prediction = knn_classifier.main('training.data', 'test.data')
-cv2.putText(
-    source_image,
-    'Prediction: ' + prediction,
-    (15, 45),
-    cv2.FONT_HERSHEY_PLAIN,
-    3,
-    200,
-    )
+print(prediction)
+#cv2.putText(source_image,'Prediction: ' + prediction,(15, 45),cv2.FONT_HERSHEY_PLAIN,3,200,)
 
 # Display the resulting frame
 cv2.imshow('color classifier', source_image)
