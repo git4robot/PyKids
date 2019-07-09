@@ -13,7 +13,7 @@ import os
 import os.path
 
 # read the test image
-source_image = cv2.imread('black_cat.jpg')
+source_image = cv2.imread('gray7.jpg')
 prediction = 'n.a.'
 
 # checking whether the training data is ready
@@ -28,8 +28,8 @@ else:
     print ('training data is ready, classifier is loading...')
 
 # get the prediction
-color_histogram_feature_extraction.color_histogram_of_test_image(source_image)
-prediction = knn_classifier.main('training.data', 'test.data')
+knn_classifier = knn_classifier.KNNClassifier(PATH)
+prediction = knn_classifier.predict(source_image)
 print(prediction)
 #cv2.putText(source_image,'Prediction: ' + prediction,(15, 45),cv2.FONT_HERSHEY_PLAIN,3,200,)
 

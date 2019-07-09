@@ -11,6 +11,7 @@ import random
 import math
 import operator
 import cv2
+import numpy as np
 
 class KNNClassifier:
     # initialize pre-trained data
@@ -86,41 +87,7 @@ class KNNClassifier:
                     dataset[x][y] = float(dataset[x][y])
                 test_feature_vector.append(dataset[x])
 
-
-    def color_histogram_of_test_image(self, test_src_image):
-
-        # load the image
-        image = test_src_image
-
-        chans = cv2.split(image)
-        colors = ('b', 'g', 'r')
-        features = []
-        feature_data = ''
-        counter = 0
-        for (chan, color) in zip(chans, colors):
-            counter = counter + 1
-
-            hist = cv2.calcHist([chan], [0], None, [256], [0, 256])
-            features.extend(hist)
-
-            # find the peak pixel values for R, G, and B
-            elem = np.argmax(hist)
-
-            if counter == 1:
-                blue = str(elem)
-            elif counter == 2:
-                green = str(elem)
-            elif counter == 3:
-                red = str(elem)
-                feature_data = red + ',' + green + ',' + blue
-                # print(feature_data)
-
-        with open('test.data', 'w') as myfile:
-            myfile.write(feature_data)
-
-
-    def predict(self, source_image):
-        training_feature_vector = []  # training feature vector
+    def predict(self, test_src_image):
         test_feature_vector = []  # test feature vector
 
         # load the image
@@ -129,7 +96,7 @@ class KNNClassifier:
         chans = cv2.split(image)
         colors = ('b', 'g', 'r')
         features = []
-        feature_data = ''
+        dataset = [0, 0, 0]
         counter = 0
         for (chan, color) in zip(chans, colors):
             counter = counter + 1
@@ -139,28 +106,11 @@ class KNNClassifier:
 
             # find the peak pixel values for R, G, and B
             elem = np.argmax(hist)
+            #[b][g][r]-->[r][g][b]
+            dataset[3-counter] = elem
+        
+        test_feature_vector.append(dataset)
 
-            if counter == 1:
-                blue = str(elem)
-            elif counter == 2:
-                green = str(elem)
-            elif counter == 3:
-                red = str(elem)
-                feature_data = red + ',' + green + ',' + blue
-                # print(feature_data)
-
-        with open('test.data', 'w') as myfile:
-            myfile.write(feature_data)            
-
-            with open(filename2) as csvfile:
-                lines = csv.reader(csvfile)
-                dataset = list(lines)
-                for x in range(len(dataset)):
-                    for y in range(3):
-                        dataset[x][y] = float(dataset[x][y])
-                    test_feature_vector.append(dataset[x])
-
-        #loadDataset(training_data, test_data, training_feature_vector, test_feature_vector)
         classifier_prediction = []  # predictions
         k = 3  # K value of k nearest neighbor
         for x in range(len(test_feature_vector)):
