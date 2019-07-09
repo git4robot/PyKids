@@ -1,3 +1,8 @@
+'''
+https://www.youcandothecube.com/solve-it/3-x-3-solution
+
+'''
+
 import numpy as np
 import os
 import cv2
@@ -60,8 +65,7 @@ def extract(imageName, face):
 	for elem in get:
 		for t in elem:
 			x,y,w,h = cv2.boundingRect(elem)
-			#print x,
-			#print y
+			print(x,y,w,h)
 			cv2.rectangle(im,(x,y),(x+w,y+h),(0,255,0),2)
 			centroid_x = (x + x+w)/2
 			centroid_y = (y + y+h)/2
@@ -96,7 +100,7 @@ def extract(imageName, face):
 					#position['white'].append(face+'9')
 					position[face+'9'] = 'white'		
 			cv2.circle(im, (int(centroid_x), int(centroid_y)), 2, (255,0,0), 2)
-
+			
 	"""
 	for cnt in contours1:
 		x,y,w,h = cv2.boundingRect(cnt)
@@ -104,7 +108,7 @@ def extract(imageName, face):
 		#print y
 		cv2.rectangle(im,(x,y),(x+w,y+h),(0,255,0),2)
 	"""
-	cv2.waitKey(0)
+	
 	#print '------------------------'
 
 	#COLOR_MIN = np.array([15, 90, 130],np.uint8)		# HSV color code lower and upper bounds
@@ -508,8 +512,6 @@ def extract(imageName, face):
 		centroid_x = (x + x+w)/2
 		centroid_y = (y + y+h)/2
 		cv2.circle(im, (int(centroid_x), int(centroid_y)), 2, (255,0,0), 2)"""
-
-
 	
 
 	cv2.line(im,(0,66),(200,66),(255,0,0),2)
@@ -519,9 +521,11 @@ def extract(imageName, face):
 	#cv2.imshow("Show",im)
 	cv2.imshow(imageName, im)
 	cv2.imwrite(imageName+'_extracted.jpg', im)
-	return position, im 
-	cv2.waitKey()
-	cv2.destroyAllWindows()
+
+	#cv2.waitKey()
+	#cv2.destroyAllWindows()
+
+	return position, im
 
 def captureImage(imageName):
 
@@ -572,7 +576,7 @@ def main():
 	#captureImage(imageName='back_face.bmp')
 	#captureImage(imageName='left_face.bmp')
 	#captureImage(imageName='top_face.bmp')
-	#captureImage(imageName='bottom_face.bmp')
+	#captureImage(imageName='bottom_face.bmp')	
 	front,s = extract(imageName='front_face.bmp', face='f')
 	right,s = extract(imageName='right_face.bmp', face='r')
 	back,s = extract(imageName='back_face.bmp', face='b')
