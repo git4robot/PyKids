@@ -66,9 +66,10 @@ def color_histogram_of_training_image(img_name):
         data_source = 'blue'
     elif 'violet' in img_name:
         data_source = 'violet'
+    '''
     elif 'gray' in img_name:
         data_source = 'gray'        
-
+    '''
     # load the image
     image = cv2.imread(img_name)
 
@@ -128,6 +129,8 @@ def training():
     for f in os.listdir('./training_dataset/blue'):
         color_histogram_of_training_image('./training_dataset/blue/' + f)		
 
+    '''
     # gray color training images
     for f in os.listdir('./training_dataset/gray'):
         color_histogram_of_training_image('./training_dataset/gray/' + f)		
+    '''
