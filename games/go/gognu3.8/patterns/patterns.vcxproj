@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F79144F7-0BBC-4550-A176-D775A4A45FC8}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>15.0.26419.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.;..;..\engine;../sgf;../utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;HAVE_CONFIG_H;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>.\Debug/patterns.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>Debug/patterns</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level2</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\Debug\patterns.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug/patterns.bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>.;..;..\engine;../sgf;../utils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;HAVE_CONFIG_H;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>.\Release/patterns.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>Release/patterns</ProgramDataBaseFileName>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\Release\patterns.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/patterns.bsc</OutputFile>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="aa_attackpat.c" />
+    <ClCompile Include="apatterns.c" />
+    <ClCompile Include="barriers.c" />
+    <ClCompile Include="conn.c" />
+    <ClCompile Include="connections.c" />
+    <ClCompile Include="dpatterns.c" />
+    <ClCompile Include="endgame.c" />
+    <ClCompile Include="eyes.c" />
+    <ClCompile Include="fuseki13.c" />
+    <ClCompile Include="fuseki19.c" />
+    <ClCompile Include="fuseki9.c" />
+    <ClCompile Include="fusekipat.c" />
+    <ClCompile Include="handipat.c" />
+    <ClCompile Include="helpers.c" />
+    <ClCompile Include="influence.c" />
+    <ClCompile Include="josekidb.c" />
+    <ClCompile Include="mcpat.c" />
+    <ClCompile Include="owl_attackpat.c" />
+    <ClCompile Include="owl_defendpat.c" />
+    <ClCompile Include="owl_vital_apat.c" />
+    <ClCompile Include="patterns.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dfa.h" />
+    <ClInclude Include="eyes.h" />
+    <ClInclude Include="patlib.h" />
+    <ClInclude Include="patterns.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="aa_attackpats.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\aa_attackpats.dtr aa_attackpat -i ..\patterns\aa_attackpats.db -o aa_attackpat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">aa_attackpat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\aa_attackpats.dtr aa_attackpat -i ..\patterns\aa_attackpats.db -o aa_attackpat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">aa_attackpat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="attack.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -X  attpat -i ..\patterns\attack.db -o apatterns.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">apatterns.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -X  attpat -i ..\patterns\attack.db -o apatterns.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">apatterns.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="barriers.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -c -b barrierspat -i ..\patterns\barriers.db -o barriers.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">barriers.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -c -b barrierspat -i ..\patterns\barriers.db -o barriers.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">barriers.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="conn.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -c conn -i ..\patterns\conn.db -o conn.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">conn.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -c conn -i ..\patterns\conn.db -o conn.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">conn.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="defense.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat defpat -i ..\patterns\defense.db -o dpatterns.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">dpatterns.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat defpat -i ..\patterns\defense.db -o dpatterns.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">dpatterns.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="endgame.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -b endpat -i ..\patterns\endgame.db -o endgame.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">endgame.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -b endpat -i ..\patterns\endgame.db -o endgame.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">endgame.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="eyes.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkeyes &lt;eyes.db &gt;eyes.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkeyes.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">eyes.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkeyes &lt;eyes.db &gt;eyes.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkeyes.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">eyes.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="fuseki.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -b fusekipat -i ..\patterns\fuseki.db -o fusekipat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fusekipat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -b fusekipat -i ..\patterns\fuseki.db -o fusekipat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">fusekipat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="fuseki13.dbz">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)uncompress_fuseki 13 ..\patterns\fuseki13.dbz c &gt;fuseki13.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)uncompress_fuseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fuseki13.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)uncompress_fuseki 13 ..\patterns\fuseki13.dbz c &gt;fuseki13.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)uncompress_fuseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">fuseki13.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="fuseki19.dbz">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)uncompress_fuseki 19 ..\patterns\fuseki19.dbz c &gt;fuseki19.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)uncompress_fuseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fuseki19.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)uncompress_fuseki 19 ..\patterns\fuseki19.dbz c &gt;fuseki19.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)uncompress_fuseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">fuseki19.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="fuseki9.dbz">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)uncompress_fuseki 9 ..\patterns\fuseki9.dbz c &gt;fuseki9.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)uncompress_fuseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fuseki9.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)uncompress_fuseki 9 ..\patterns\fuseki9.dbz c &gt;fuseki9.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)uncompress_fuseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">fuseki9.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="gogo.db" />
+    <CustomBuild Include="gogo.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki JG gogo.sgf &gt;gogo.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">gogo.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki JG gogo.sgf &gt;gogo.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">gogo.db;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="handicap.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -b handipat -i ..\patterns\handicap.db -o handipat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">handipat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -b handipat -i ..\patterns\handicap.db -o handipat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">handipat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="hoshi_keima.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -C joseki -i hoshi_keima.db -i hoshi_other.db -i komoku.db -i sansan.db -i mokuhazushi.db -i takamoku.db -i gogo.db -o josekidb.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;hoshi_other.db;komoku.db;sansan.db;mokuhazushi.db;takamoku.db;gogo.db;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">josekidb.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -C joseki -i hoshi_keima.db -i hoshi_other.db -i komoku.db -i sansan.db -i mokuhazushi.db -i takamoku.db -i gogo.db -o josekidb.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;hoshi_other.db;komoku.db;sansan.db;mokuhazushi.db;takamoku.db;gogo.db;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">josekidb.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="hoshi_keima.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki JHK hoshi_keima.sgf &gt;hoshi_keima.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">hoshi_keima.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki JHK hoshi_keima.sgf &gt;hoshi_keima.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">hoshi_keima.db;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="hoshi_other.db" />
+    <CustomBuild Include="hoshi_other.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki JHO hoshi_other.sgf &gt;hoshi_other.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">hoshi_other.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki JHO hoshi_other.sgf &gt;hoshi_other.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">hoshi_other.db;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="influence.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -c influencepat -i ..\patterns\influence.db -o influence.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">influence.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -c influencepat -i ..\patterns\influence.db -o influence.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">influence.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="komoku.db" />
+    <CustomBuild Include="komoku.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki JK komoku.sgf &gt;komoku.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">komoku.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki JK komoku.sgf &gt;komoku.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">komoku.db;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="mc_mogo_classic.db" />
+    <None Include="mc_montegnu_classic.db" />
+    <CustomBuild Include="mc_uniform.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkmcpat mc_mogo_classic.db mc_montegnu_classic.db mc_uniform.db &gt;mcpat.c
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mcpat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkmcpat mc_mogo_classic.db mc_montegnu_classic.db mc_uniform.db &gt;mcpat.c
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mcpat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="mokuhazushi.db" />
+    <CustomBuild Include="mokuhazushi.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki JM mokuhazushi.sgf &gt;mokuhazushi.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">mokuhazushi.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki JM mokuhazushi.sgf &gt;mokuhazushi.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">mokuhazushi.db;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="owl_attackpats.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\owl_attackpats.dtr owl_attackpat -i ..\patterns\owl_attackpats.db -o owl_attackpat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">owl_attackpat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\owl_attackpats.dtr owl_attackpat -i ..\patterns\owl_attackpats.db -o owl_attackpat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">owl_attackpat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="owl_defendpats.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\owl_defendpats.dtr owl_defendpat -i ..\patterns\owl_defendpats.db -o owl_defendpat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">owl_defendpat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\owl_defendpats.dtr owl_defendpat -i ..\patterns\owl_defendpats.db -o owl_defendpat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">owl_defendpat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="owl_vital_apats.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\owl_vital_apats.dtr owl_vital_apat -i ..\patterns\owl_vital_apats.db -o owl_vital_apat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">owl_vital_apat.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -D -m -b -t ..\patterns\owl_vital_apats.dtr owl_vital_apat -i ..\patterns\owl_vital_apats.db -o owl_vital_apat.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">owl_vital_apat.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="patterns.db">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat -b pat -i patterns.db -i patterns2.db -o patterns.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)mkpat.exe;patterns2.db;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">patterns.c;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat -b pat -i patterns.db -i patterns2.db -o patterns.c
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)mkpat.exe;patterns2.db;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">patterns.c;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="patterns2.db" />
+    <None Include="sansan.db" />
+    <CustomBuild Include="sansan.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki JS sansan.sgf &gt; sansan.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sansan.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki JS sansan.sgf &gt; sansan.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sansan.db;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="takamoku.db" />
+    <CustomBuild Include="takamoku.sgf">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki  JT takamoku.sgf &gt; takamoku.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">takamoku.db;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki  JT takamoku.sgf &gt; takamoku.db
+</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)joseki.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">takamoku.db;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="joseki.vcxproj">
+      <Project>{27d6fee0-cc3c-47e9-8d5a-4af9d1073bc5}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="mkeyes.vcxproj">
+      <Project>{9cea050e-ab5d-4848-abe4-e243d87f382d}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="mkmcpat.vcxproj">
+      <Project>{fa53ea79-4a0c-42c2-810a-c80803449fdc}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="mkpat.vcxproj">
+      <Project>{4d861ada-38c4-466a-85e2-5c7d3814d353}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="uncompress_fuseki.vcxproj">
+      <Project>{cdf4f6d5-16fb-4dcc-af52-5450c54c3442}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
