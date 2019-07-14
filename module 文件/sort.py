@@ -75,10 +75,15 @@ def shellsort(list):
             print("%d" % list[i])
     print('耗时：%f' % (t2 - t1))
 
-if __name__ == '__main__':
+def test():
     a = list(range(7500))
     shuffle(a)
     insertionsort(a)
     selectionsort(a)
     bubblesort(a)
     shellsort(a)
+
+if __name__ == '__main__':
+    test()
+
+
