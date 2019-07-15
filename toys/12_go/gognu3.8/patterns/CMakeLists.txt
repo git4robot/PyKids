@@ -73,7 +73,7 @@ SET(extract_fuseki_SRCS
 ADD_EXECUTABLE(extract_fuseki ${extract_fuseki_SRCS})
 
 TARGET_LINK_LIBRARIES(extract_fuseki engine patterns
-                      engine patterns sgf utils)
+                      engine patterns sgf utils m)
 
 
 ########### next target ###############
