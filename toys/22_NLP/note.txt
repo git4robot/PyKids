@@ -1,0 +1,7 @@
+NLP 
+
+1£¬Embedding/Chinese-Word-Vectors
+https://github.com/Embedding/Chinese-Word-Vectors
+
+jieba·Ö´Ê
+

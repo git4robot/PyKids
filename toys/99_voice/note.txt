@@ -1,0 +1,14 @@
+语音
+
+1，libai3/masr MASR，训练快，效果好
+https://github.com/libai3/masr
+
+2，xxbb1234021/speech_recognition
+https://github.com/xxbb1234021/speech_recognition
+
+
+3，audier/DeepSpeechRecognition
+https://github.com/audier/DeepSpeechRecognition
+
+语料：
+http://www.openslr.org/18/
