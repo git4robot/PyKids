@@ -1,4 +1,8 @@
 Mandarin To Text(TTS)
+http://www.xiaominfc.com/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/2019/04/23/%E5%9F%BA%E4%BA%8ETacotron%E6%A8%A1%E5%9E%8B%E5%AE%9E%E7%8E%B0%E4%B8%AD%E6%96%87%E8%AF%AD%E9%9F%B3%E5%90%88%E6%88%90.html
+
+https://github.com/Jackiexiao/MTTS
+
 
 1£¬ksw0306/WaveVAE
 https://github.com/ksw0306/WaveVAE
