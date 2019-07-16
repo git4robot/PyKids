@@ -8,3 +8,6 @@ https://github.com/ksw0306
 
 2£¬ClariNet
 https://www.zhihu.com/question/286833584
+
+3£¬NVIDIA/waveglow
+https://github.com/NVIDIA/waveglow
