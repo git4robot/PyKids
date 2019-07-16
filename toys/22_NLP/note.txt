@@ -5,3 +5,11 @@ https://github.com/Embedding/Chinese-Word-Vectors
 
 jieba分词
 
+
+大规模中文自然语言处理语料
+https://github.com/brightmart/nlp_chinese_corpus
+
+
+AimeeLee77/wiki_zh_word2vec
+利用Python构建Wiki中文语料词向量模型试验
+https://github.com/AimeeLee77/wiki_zh_word2vec
