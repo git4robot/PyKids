@@ -1,5 +1,7 @@
 # Deep Q&A Conchylicultor/DeepQA
 https://github.com/Conchylicultor/DeepQA
+Hello Bala, I'm glad to tell you that DeepQA indeed support Chinese. Please prepare you own data for example file named "my_own_data.txt", then put it in dir 'lightweight'. And when you train your model, you should use the command python main.py --corpus lightweight --datasetTag my_own_data. If the command doesn't work, please remove the data in "data/samples" dir.
+Good luck!
 
 stanfordNLP
 句子理解、自动问答系统、机器翻译、句法分析、标注、情感分析、文本和视觉场景和模型， 以及自然语言处理数字人文社会科学中的应用和计算。
