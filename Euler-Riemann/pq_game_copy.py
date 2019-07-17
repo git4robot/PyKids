@@ -20,9 +20,9 @@ def calcQP(c, k):
             sx = px*q1+qx*p1+k
             if sx%10==c:  #求个位数
                 res_pq.append({'p':px,'q':qx,'k':(sx//10)})
-                print(f"{p1}*{qx}+{q1}*{px}+{k} % 10 == {c}       {sx//10}")
+                #print(f"{p1}*{qx}+{q1}*{px}+{k} % 10 == {c}       {sx//10}")
 
-    print("------------------------------")
+    #print("------------------------------")
     return res_pq
 
 pq2 = []
@@ -78,4 +78,4 @@ for x2 in range(0, len(pq2)):
                 #if sum // 10 != pqs[L-9]:
                 #    break
                 #finally, prime found!
-                print(f"Bingo: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q}  = {pq}")
+                print(f"Bingo: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}  = {pq}")
