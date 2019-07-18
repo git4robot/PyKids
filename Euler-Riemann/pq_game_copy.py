@@ -1,6 +1,7 @@
 
 import math
 
+DEBUG = True
 
 p = 21179
 q = 21187
@@ -17,10 +18,11 @@ def calcQP(c, k):
     res_pq = []
     for px in range(0,10):
         for qx in range(0,10):
-            sx = px*q1+qx*p1+k
+            sx = px*q1+p1*qx+k
             if sx%10==c:  #求个位数
                 res_pq.append({'p':px,'q':qx,'k':(sx//10)})
                 #print(f"{p1}*{qx}+{q1}*{px}+{k} % 10 == {c}       {sx//10}")
+                break
 
     #print("------------------------------")
     return res_pq
@@ -48,32 +50,38 @@ for x2 in range(0, len(pq2)):
             pq5 = calcQP(pqs[L-5], k)
 
             for x5 in range(0, len(pq5)):
+
+                if DEBUG and pq2[x2]['p'] == 7 and pq2[x2]['q'] == 8 and pq3[x3]['p'] == 1 \
+                    and pq3[x3]['q'] == 1 and pq4[x4]['p'] == 1 and pq4[x4]['q'] == 1:
+                    print("***********")
+                    print(f"==: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}  = {pq}")
+
                 #验证万位
-                sum = pq5[x5]['p']*pq2[x2]['q'] + pq4[x4]['p']*pq3[x3]['q'] + pq3[x3]['p']*pq4[x4]['q'] + pq2[x2]['p']*pq5[x5]['q'] + pq5[x5]['k']
+                k = pq5[x5]['p']*pq2[x2]['q'] + pq4[x4]['p']*pq3[x3]['q'] + pq3[x3]['p']*pq4[x4]['q'] + pq2[x2]['p']*pq5[x5]['q'] + pq5[x5]['k']
                 #print(f"{sum%10}")
-                if sum % 10 != pqs[L-6]:
-                    break
+                if k % 10 != pqs[L-6]:
+                    continue
                 
                 #验证十万位
-                k = sum // 10
-                sum = pq5[x5]['p']*pq3[x3]['q'] + pq4[x4]['p']*pq4[x4]['q'] + pq3[x3]['p']*pq5[x5]['q'] + k
+                k = k // 10
+                k = pq5[x5]['p']*pq3[x3]['q'] + pq4[x4]['p']*pq4[x4]['q'] + pq3[x3]['p']*pq5[x5]['q'] + k
                 #print(f"{sum%10}")
-                if sum % 10 != pqs[L-7]:
-                    break       
+                if k % 10 != pqs[L-7]:
+                    continue       
                 
                 #验证百万位
-                k = sum // 10
-                sum = pq5[x5]['p']*pq4[x4]['q'] + pq4[x4]['p']*pq5[x5]['q'] + k
+                k = k // 10
+                k = pq5[x5]['p']*pq4[x4]['q'] + pq4[x4]['p']*pq5[x5]['q'] + k
                 #print(f"{sum%10}")
-                if sum % 10 != pqs[L-8]:
-                    break                                   
+                if k % 10 != pqs[L-8]:
+                    continue                                   
                 
                 #验证千万位
-                k = sum // 10
-                sum = pq5[x5]['p']*pq5[x5]['q'] + k
+                k = k // 10
+                k = pq5[x5]['p']*pq5[x5]['q'] + k
                 #print(f"{sum%10}")
-                if sum % 10 != pqs[L-9]:
-                    break               
+                if k % 10 != pqs[L-9]:
+                    continue               
                 #最高位检验（亿）  
                 #if sum // 10 != pqs[L-9]:
                 #    break
