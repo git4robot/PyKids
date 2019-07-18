@@ -55,7 +55,7 @@ for x2 in range(0, len(pq2)):
                     and pq3[x3]['q'] == 1 and pq4[x4]['p'] == 1 and pq4[x4]['q'] == 1:
                     pnew = int(f"{pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1}")
                     qnew = int(f"{pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}")
-                    print(f"==: {pnew} * {qnew} = {pnew*qnew}")
+                    print(f"==: {pnew:05d} * {qnew:05d} = {pnew*qnew:09d}")
 
                 #验证万位
                 k = pq5[x5]['p']*pq2[x2]['q'] + pq4[x4]['p']*pq3[x3]['q'] + pq3[x3]['p']*pq4[x4]['q'] + pq2[x2]['p']*pq5[x5]['q'] + pq5[x5]['k']
@@ -87,4 +87,4 @@ for x2 in range(0, len(pq2)):
                 #if sum // 10 != pqs[L-9]:
                 #    break
                 #finally, prime found!
-                print(f"Bingo: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}  = {pq}")
+                print(f"**: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1} = {pq}")
