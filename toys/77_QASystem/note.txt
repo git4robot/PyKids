@@ -1,3 +1,6 @@
+shibing624/dialogbot
+https://github.com/shibing624/dialogbot
+
 # Deep Q&A Conchylicultor/DeepQA
 https://github.com/Conchylicultor/DeepQA
 Hello Bala, I'm glad to tell you that DeepQA indeed support Chinese. Please prepare you own data for example file named "my_own_data.txt", then put it in dir 'lightweight'. And when you train your model, you should use the command python main.py --corpus lightweight --datasetTag my_own_data. If the command doesn't work, please remove the data in "data/samples" dir.
