@@ -53,15 +53,16 @@ for x2 in range(0, len(pq2)):
 
                 if DEBUG and pq2[x2]['p'] == 7 and pq2[x2]['q'] == 8 and pq3[x3]['p'] == 1 \
                     and pq3[x3]['q'] == 1 and pq4[x4]['p'] == 1 and pq4[x4]['q'] == 1:
-                    print("***********")
-                    print(f"==: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}  = {pq}")
+                    pnew = int(f"{pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1}")
+                    qnew = int(f"{pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}")
+                    print(f"==: {pnew} * {qnew} = {pnew*qnew}")
 
                 #验证万位
                 k = pq5[x5]['p']*pq2[x2]['q'] + pq4[x4]['p']*pq3[x3]['q'] + pq3[x3]['p']*pq4[x4]['q'] + pq2[x2]['p']*pq5[x5]['q'] + pq5[x5]['k']
                 #print(f"{sum%10}")
                 if k % 10 != pqs[L-6]:
                     continue
-                
+
                 #验证十万位
                 k = k // 10
                 k = pq5[x5]['p']*pq3[x3]['q'] + pq4[x4]['p']*pq4[x4]['q'] + pq3[x3]['p']*pq5[x5]['q'] + k
