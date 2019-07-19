@@ -1,3 +1,10 @@
+
+GSByeon/multi-speaker-tacotron-tensorflow
+https://github.com/GSByeon/multi-speaker-tacotron-tensorflow
+candlewill/multi-speaker-tacotron-tensorflow
+https://github.com/candlewill/multi-speaker-tacotron-tensorflow
+
+
 mozilla/TTS
 https://github.com/mozilla/TTS
 
