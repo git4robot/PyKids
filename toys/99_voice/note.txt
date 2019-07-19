@@ -7,6 +7,9 @@ https://github.com/libai3/masr
 https://github.com/xxbb1234021/speech_recognition
 
 
+mozilla/DeepSpeech
+https://github.com/mozilla/DeepSpeech
+
 3£¬audier/DeepSpeechRecognition
 https://github.com/audier/DeepSpeechRecognition
 

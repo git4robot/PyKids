@@ -1,4 +1,7 @@
 
+r9y9/deepvoice3_pytorch
+https://github.com/r9y9/deepvoice3_pytorch
+
 GSByeon/multi-speaker-tacotron-tensorflow
 https://github.com/GSByeon/multi-speaker-tacotron-tensorflow
 candlewill/multi-speaker-tacotron-tensorflow
