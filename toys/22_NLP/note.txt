@@ -1,4 +1,7 @@
 
+jinfagang/tensorflow_poems
+https://github.com/jinfagang/tensorflow_poems
+
 NLP 
 allenai/allennlp
 https://github.com/allenai/allennlp
