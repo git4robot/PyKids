@@ -1,4 +1,7 @@
 
+ywwhxxtw/deepvoice3_pytorch optimization for Chinese by yunke_ws
+https://github.com/ywwhxxtw/deepvoice3_pytorch
+
 r9y9/deepvoice3_pytorch
 https://github.com/r9y9/deepvoice3_pytorch
 
