@@ -1,7 +1,21 @@
 
+import os
+import sys
 import math
+import logging
 
-DEBUG = True
+DEBUG = False
+
+cur_path = os.path.dirname(os.path.abspath(sys.argv[0]))
+logging.basicConfig(level=logging.DEBUG,#控制台打印的日志级别
+					#a是追加模式，默认如果不写的话，就是追加模式
+					format='%(asctime)s - %(pathname)s:%(lineno)d - %(levelname)s: %(message)s',
+					#日志格式
+					handlers=[logging.FileHandler(cur_path+'new.log'), logging.StreamHandler()]
+					)
+
+logging.debug(u"------------------开始------------------------")
+pq_debug_list = []
 
 p = 21179
 q = 21187
@@ -51,6 +65,12 @@ for x2 in range(0, len(pq2)):
 
             for x5 in range(0, len(pq5)):
 
+                pnew = int(f"{pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1}")
+                qnew = int(f"{pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1}")
+                pqnew = pnew*qnew
+                pq_debug_list.append((pnew, qnew, pqnew))
+                #print(f"==: {pnew:05d} * {qnew:05d} = {pqnew:010d}")
+                
                 if DEBUG and pq2[x2]['p'] == 7 and pq2[x2]['q'] == 8 and pq3[x3]['p'] == 1 \
                     and pq3[x3]['q'] == 1 and pq4[x4]['p'] == 1 and pq4[x4]['q'] == 1:
                     pnew = int(f"{pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1}")
@@ -87,4 +107,14 @@ for x2 in range(0, len(pq2)):
                 #if sum // 10 != pqs[L-9]:
                 #    break
                 #finally, prime found!
-                print(f"**: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1} = {pq}")
+                #print(f"**: {pq5[x5]['p']}{pq4[x4]['p']}{pq3[x3]['p']}{pq2[x2]['p']}{p1} * {pq5[x5]['q']}{pq4[x4]['q']}{pq3[x3]['q']}{pq2[x2]['q']}{q1} = {pq}")
+
+# 获取列表的第二个元素
+def takeFirst(elem):
+    return elem[0]
+
+# 指定第二个元素排序
+pq_debug_list.sort(reverse = False, key = takeFirst)
+#print by reverse order
+for pnew, qnew, pqnew in pq_debug_list:
+    print(f"==: {pnew:05d} * {qnew:05d} = {pqnew:010d}")                
