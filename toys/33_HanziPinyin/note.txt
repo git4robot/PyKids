@@ -1,0 +1,14 @@
+pip install xpinyin
+
+from xpinyin import Pinyin
+p = Pinyin()
+p.get_pinyin(u'如果方法中传入变量', ' ', tone_marks='numbers')
+
+flyerhzm/chinese_pinyin
+https://github.com/flyerhzm/chinese_pinyin
+
+lxneng/xpinyin
+https://github.com/lxneng/xpinyin
+
+peterolson/hanzi-tools(分词。tag - 词性标注)
+https://github.com/peterolson/hanzi-tools
