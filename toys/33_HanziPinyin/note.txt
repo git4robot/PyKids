@@ -1,3 +1,5 @@
+pip install pydub #MP3нд╪Ч╥ж╦Н
+
 pip install xpinyin
 
 from xpinyin import Pinyin
