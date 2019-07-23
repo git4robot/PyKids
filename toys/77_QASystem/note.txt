@@ -1,3 +1,8 @@
+https://www.chatbotpack.com/chatbots-github
+
+gunthercox/ChatterBot
+https://github.com/gunthercox/ChatterBot
+
 shibing624/dialogbot
 https://github.com/shibing624/dialogbot
 
