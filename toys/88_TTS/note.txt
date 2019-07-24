@@ -1,3 +1,5 @@
+lowerquality/gentle(A tool for aligning speech with text.)
+https://github.com/lowerquality/gentle
 
 ywwhxxtw/deepvoice3_pytorch optimization for Chinese by yunke_ws
 https://github.com/ywwhxxtw/deepvoice3_pytorch
