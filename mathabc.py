@@ -69,7 +69,7 @@ def delivery(n1, n2):
     except Exception:
         raise InputError from None
     else:
-        print('%s % %s = %s' % (n1, n2, n1 % n2))
+        print(f'{n1} % {n2} = {n1 % n2}')
 
 
 '''Test for mathabc.'''
