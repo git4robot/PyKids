@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Jun 1 07:45:00 2019
-
-@author: Robin
-"""
-'''A module to finds all kinds of primes'''
-'''Version -- 2.5.5(at python 3+)'''
+'''A module to finds all kinds of primes. Version -- 2.5.5(at python 3+)'''
 from math import sqrt
 import numpy
-#from time import time
+from time import time
 def is_prime(n):
     for i in range(2,int(sqrt(n)+1)):
         if n % i == 0:
@@ -83,13 +76,14 @@ def find_square_palindromes(n):
     for i in primes:
         print(i,i**2)
 
-'''def main():
-       start_tm = time()
-       find_twins(5000)
-       find_reverse(5000)
-       find_palindromes(7500)
-       find_square_palindromes(10000000)
-       print("耗时：%f" % (time() - start_tm))
+def _test():
+    start_tm = time()
+    find_twins(5000)
+    find_reverse(5000)
+    find_palindromes(7500)
+    find_square_palindromes(10000000)
+    print("耗时：%f" % (time() - start_tm))
     
 if __name__ == '__main__':
-    main()'''
+    _test()
+
