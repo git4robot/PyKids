@@ -1,7 +1,8 @@
 training dataset:
 I got the same problem. The network doesn't know to generate a long silence at the end, therefore, function util/audio.py/: find_endpoint doesn't work as intended. To fix this, I used pydub to append 1 second silence at the end of each training sample.(https://github.com/keithito/tacotron/issues/133)
 
-
+xcmyz/FastSpeech
+https://github.com/xcmyz/FastSpeech
 https://speechresearch.github.io/fastspeech/
 
 A simple implementation of Nvidia's AI denoiser
