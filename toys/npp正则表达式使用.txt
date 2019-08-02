@@ -1,0 +1,116 @@
+Notepad++正则表达式语法:
+	\   转义字符  如：要使用 “\” 本身, 则应该使用“\\”
+	\t  Tab制表符  注：扩展和正则表达式都支持
+	\r  回车符CR   注：扩展支持，正则表达式不支持
+	\n  换行符LF   注：扩展支持，正则表达式不支持
+	.  匹配任意字符
+	^ 其右边的表达式被匹配在行首。如：^A匹配以“A”开头的行
+	$ 其左边的表达式被匹配在行尾。如：e$匹配以“e”结尾的行
+	|  或运算符，匹配表达式左边和右边的字符串。如：ab|bc匹配“ab”或“bc”
+	[] 匹配列表中任意单个字符。如：[ab]匹配“a”或“b”；[0-9]匹配任意单个数字
+	[^] 匹配列表之外的任意单个字符。如：[^ab]匹配“a”和“b”以外的单个字符；[^0-9]匹配任意单个非数字字符
+	* 其左边的字符被匹配任意次(0次或多次)。如：be*匹配“b”,“be”或“bee”
+	+ 其左边的字符被匹配至少一次(1次或多次)。如：be+匹配“be”或“bee”，但不匹配“b”
+	? 其左边的字符被匹配0次或者1次。如：be?匹配“b”或“be”，但不匹配“bee”
+	() 影响表达式匹配的顺序(类似C++的小括号会影响表达式运算顺序)，并且用作表达式的分组标记（标记从1开始）注：看下文的示例
+	\d 匹配一个数字字符。等价于：[0-9]
+	\D \d取反，匹配一个非数字字符。等价于：[^0-9]
+	\s 匹配任意单个空白字符：包括空格、制表符等（注：不包括换车符和换行符）。等价于：[ \t]
+	\S  \s取反的任意单个字符。
+	\w 匹配包括下划线的任意单个字符。等价于：[A-Za-z0-9_]
+	\W \w取反的任意单个字符。等价于：[^A-Za-z0-9_]
+---------------------------------------------------
+查找：(^\d)_(.*\.png)
+退换：\1_\2 \1
+如：9_TrebuchetMS-5-0.png 变成：9_TrebuchetMS-5-0.png 9
+注：（）分组标记，方便用\1，\2来表示。（标记从1开始）
+注：matches newline不能选中，否则不能单行操作
+---------------------------------------------------
+
+vs2015,_imp_sprintf link error: add -> legacy_stdio_definitions.lib
+vs2015, 发布需要的runtime库，x64的ucrtbase.dll，api*.dll
+
+lenet.prototxt文件：
+input_param { shape: { dim: 10 dim: 3 dim: 32 dim: 32 } } 
+shape {
+  dim: 10 #num，对待识别样本进行数据增广的数量，可自行定义。一般会进行5次crop，之后分别flip。如果该值为10则表示一个样本会变成10个，之后输入到网络进行识别。如果不进行数据增广，可以设置成1
+  dim: 3  #通道数，表示RGB三个通道
+  dim: 32   #图像的长和宽，通过 *_train_test.prototxt文件中数据输入层的crop_size获取
+  dim: 32
+详细解释：
+dim:10  ——表示对待识别样本进行数据增广的数量，该值的大小可自行定义。但一般会进行5次crop，将整幅图像分为多个flip。该值为10则表示会将待识别的样本分为10部分输入到网络进行识别。如果相对整幅图像进行识别而不进行图像数据增广，则可将该值设置为1.
+dim:3 ——该值表示处理的图像的通道数，若图像为RGB图像则通道数为3，设置该值为3；若图像为灰度图，通道数为1则设置该值为1.
+dim:32 ——图像的长度，可以通过网络配置文件中的数据层中的crop_size来获取。
+dim:32——图像的宽度，可以通过网络配置文件中的数据层中的crop_size来获取。
+
+lenet_train_test.prototxt文件：
+inner_product_param
+ num_output: 10 (0-9)
+
+solver.prototxt文件：
+net: "examples/mytest/train_val.prototxt" //根据自己的路径做修改
+test_iter: 2      //测试的时候，输入2个batch
+test_interval: 50  //每迭代50次，测试一次
+base_lr: 0.001 //基础学习率，因为数据量小，0.01就会下降太快了，因此改成0.001
+lr_policy: "step"
+gamma: 0.1 //0.1学习率变化的比率 
+stepsize: 100  //每迭代100次，调整一次学习率
+display: 20     //每20次迭代，显示一次
+max_iter: 1000  //最大迭代1000次
+momentum: 0.9  //学习的参数，不用变
+weight_decay: 0.0005  //学习的参数，不用变 
+snapshot: 5000  //每迭代5000次显示状态
+snapshot_prefix: "examples/mytest/caffenet_train" //根据自己的路径做修改
+solver_mode: GPU  //表示用GPU运算
+
+做自己的训练集的步骤： 
+<1>分类；将自己的训练数据分成类并写train.txt文件，test直接全放一起，写test.txt文档 
+<2>做数据集文件(lmdb) 
+<3>定义网络结构 
+<4>训练并验证
+
+//如果创建一个Rect对象rect(100, 50, 50, 100)，那么rect会有以下几个功能：  
+rect.area();     //返回rect的面积 5000  
+rect.size();     //返回rect的尺寸 [50 × 100]  
+rect.tl();       //返回rect的左上顶点的坐标 [100, 50]  
+rect.br();       //返回rect的右下顶点的坐标 [150, 150]  
+rect.width();    //返回rect的宽度 50  
+rect.height();   //返回rect的高度 100  
+rect.contains(Point(x, y));  //返回布尔变量，判断rect是否包含Point(x, y)点  
+  
+//还可以求两个矩形的交集和并集  
+rect = rect1 & rect2;  
+rect = rect1 | rect2;  
+  
+//还可以对矩形进行平移和缩放    
+rect = rect + Point(-100, 100); //平移，也就是左上顶点的x坐标-100，y坐标+100  
+rect = rect + Size(-100, 100);  //缩放，左上顶点不变，宽度-100，高度+100  
+  
+//还可以对矩形进行对比，返回布尔变量  
+rect1 == rect2;  
+rect1 != rect2;  
+  
+//OpenCV里貌似没有判断rect1是否在rect2里面的功能，所以自己写一个吧  
+bool isInside(Rect rect1, Rect rect2)  
+{  
+    return (rect1 == (rect1&rect2));  
+}  
+  
+//OpenCV貌似也没有获取矩形中心点的功能，还是自己写一个  
+Point getCenterPoint(Rect rect)  
+{  
+    Point cpt;  
+    cpt.x = rect.x + cvRound(rect.width/2.0);  
+    cpt.y = rect.y + cvRound(rect.height/2.0);  
+    return cpt;  
+}  
+  
+//围绕矩形中心缩放  
+Rect rectCenterScale(Rect rect, Size size)  
+{  
+    rect = rect + size;   
+    Point pt;  
+    pt.x = cvRound(size.width/2.0);  
+    pt.y = cvRound(size.height/2.0);  
+    return (rect-pt);  
+}  
