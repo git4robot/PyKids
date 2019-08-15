@@ -1,2 +1,16 @@
 openservo:
 https://github.com/ginge
+https://www.robotshop.com/
+https://www.robotshop.com/community/
+
+DIY Servo Motor
+https://www.instructables.com/id/DIY-Servo-Motor/
+
+dcservo
+https://github.com/misan/dcservo
+
+H-Bridge IC
+SN754410
+HR8833
+L298N
+L293D …¢»»≤ª»Á298
