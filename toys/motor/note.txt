@@ -16,6 +16,9 @@ https://dronebotworkshop.com/servo-motors-with-arduino/
 
 https://github.com/DroneBotWorkshop/arduino-projects
 
+LIDAR:
+https://dronebotworkshop.com/getting-started-with-lidar/
+
 dcservo
 https://github.com/misan/dcservo
 
