@@ -1,0 +1,42 @@
+https://forum.arduino.cc/index.php?topic=361718.0
+https://forum.poppy-project.org/t/powering-poppy-with-openservo-v4/148
+£°£°£°£°
+https://github.com/alvaroferran/IntelliServo
+
+openservo:
+https://github.com/ginge
+https://www.robotshop.com/
+https://www.robotshop.com/community/
+
+DIY Servo Motor
+https://roamingdrone.wordpress.com/2008/07/24/diy-servo-with-arduino-dc-motor-and-potentiometer/
+https://www.instructables.com/id/DIY-Servo-Motor/
+https://www.hobbyist.co.nz/?q=convert-dc-motor-to-servo-using-arduino
+http://www.audiohms.com/en/blog/item/156-convert-dc-motor-into-dc-servo-motor
+
+Robot Learning:
+https://www.bilibili.com/video/av18516816/?p=22
+Servo Details:
+https://dronebotworkshop.com/servo-motors-with-arduino/
+
+https://github.com/DroneBotWorkshop/arduino-projects
+
+LIDAR:
+https://dronebotworkshop.com/getting-started-with-lidar/
+
+dcservo
+https://github.com/misan/dcservo
+
+H-Bridge IC
+	MC33887			5-28V£¨5A£¨10kHz		Motorola
+	SN754410		4.5-36V 1A				TI
+   *DRV8837 		1.8-7V 1.8A				TI
+  **HR8833
+	L298N
+	L293D …¢»»≤ª»Á298
+	TA7257P			6-18V 4.5A
+	VNH5200AS-E
+	VN5770AKP-E
+	
+Postion Sensors:
+This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.	
