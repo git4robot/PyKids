@@ -3,6 +3,8 @@ https://forum.poppy-project.org/t/powering-poppy-with-openservo-v4/148
 £¡£¡£¡£¡
 https://github.com/alvaroferran/IntelliServo
 
+https://www.cnczone.com/forums/open-source-controller-boards/283428-cnc.html
+
 openservo:
 https://github.com/ginge
 https://www.robotshop.com/
@@ -39,4 +41,4 @@ H-Bridge IC
 	VN5770AKP-E
 	
 Postion Sensors:
-This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.	
+This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.ÂõµÂ¶û´«¸Ð	
