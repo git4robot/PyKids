@@ -42,3 +42,10 @@ H-Bridge IC
 	
 Postion Sensors:
 This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.ÂõµÂ¶û´«¸Ð	
+
+L298 Motor Drive Demos
+Sketches show different ways to make DC motors have direction and speed control.
+https://github.com/automation-technology-club/L298-Motor-Drive-Demos
+
+For Indoor Robotic navigation using NFC Tags
+https://github.com/automation-technology-club/NFC-indoor-location-Mockup
