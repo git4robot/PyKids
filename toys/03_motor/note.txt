@@ -3,7 +3,13 @@ https://forum.poppy-project.org/t/powering-poppy-with-openservo-v4/148
 ！！！！
 https://github.com/alvaroferran/IntelliServo
 
+CNC-zone
+https://www.cnczone.com/forums/open-source-controller-boards/283428-cnc-8.html
 https://www.cnczone.com/forums/open-source-controller-boards/283428-cnc.html
+
+电子发烧友论坛
+http://bbs.elecfans.com/
+
 
 TOF range sensor
 VL53L0X  VL53L1x
@@ -29,7 +35,7 @@ https://github.com/DroneBotWorkshop/arduino-projects
 LIDAR:
 https://dronebotworkshop.com/getting-started-with-lidar/
 
-dcservo
+***dcservo
 https://github.com/misan/dcservo
 
 H-Bridge IC
@@ -39,9 +45,14 @@ H-Bridge IC
   **HR8833
 	L298N
 	L293D 散热不如298
+	L9110H
+  **TA6586	
 	TA7257P			6-18V 4.5A
 	VNH5200AS-E
 	VN5770AKP-E
+****TB6612FNG		15V, 1.2A	2-motors
+	A3950ST			36V, 2.8A	1-motor		Ubtech
+
 	
 Postion Sensors:
 This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.迈德尔传感	
