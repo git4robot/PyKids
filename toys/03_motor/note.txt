@@ -56,7 +56,10 @@ H-Bridge IC
 	
 Postion Sensors:
 This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.ÂõµÂ¶û´«¸Ð	
-
+AS5045		14bit
+AS5600		12bit	0.05deg
+TLE5012B	15bit	0.01deg
+MLX90316	14bit
 L298 Motor Drive Demos
 Sketches show different ways to make DC motors have direction and speed control.
 https://github.com/automation-technology-club/L298-Motor-Drive-Demos
