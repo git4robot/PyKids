@@ -53,6 +53,12 @@ H-Bridge IC
 ****TB6612FNG		15V, 1.2A	2-motors
 	A3950ST			36V, 2.8A	1-motor		Ubtech
 
+STM32F103RCT6	256	48RAM	64Pins	
+STM32F103C8T6 64Flash 20RAM 48Pins
+姿态传感器 MPU6050	
+气压计使用的是FBM320 BMP280、SPL06
+SI2302这款MOS管
+无线芯片：SI24R1 NRF24L01
 	
 Postion Sensors:
 This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.迈德尔传感	
