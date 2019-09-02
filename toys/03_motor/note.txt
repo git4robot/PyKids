@@ -60,6 +60,19 @@ STM32F103C8T6 64Flash 20RAM 48Pins
 SI2302这款MOS管
 无线芯片：SI24R1 NRF24L01
 	
+rt9193 300mA,超低噪音,超高速CMOS LDO稳压器
+ZXCT1009 电流监控器
+HT7550 SOT89 三端稳压芯片 电压稳压器
+建议用中断加DMA。
+现在我搭载在自己写的实时内核，一个总线挂了四五个设备，各个任务乱序访问，一点问题也没发现过。
+
+fxanhkhoa/stm32f103_i2c--multi-sensor-mpu9250
+https://github.com/fxanhkhoa/stm32f103_i2c--multi-sensor-mpu9250
+https://github.com/fxanhkhoa/NCKH_WAND
+
+
+https://www.phidgets.com/docs/DC_Motor_and_Controller_Primer
+
 Postion Sensors:
 This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.迈德尔传感	
 AS5045		14bit
