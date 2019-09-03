@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>Target 1</TargetName>
+      <TargetName>ZROBO</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -47,7 +47,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>..\OBJ\</OutputDirectory>
-          <OutputName>USART</OutputName>
+          <OutputName>ZROBO</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE</IncludePath>
+              <IncludePath>..\HARDWARE\DMA;..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -433,6 +433,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\LED\led.c</FilePath>
             </File>
+            <File>
+              <FileName>dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\DMA\dma.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -492,6 +497,11 @@
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_FWLib\src\misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_FWLib\src\stm32f10x_dma.c</FilePath>
             </File>
           </Files>
         </Group>

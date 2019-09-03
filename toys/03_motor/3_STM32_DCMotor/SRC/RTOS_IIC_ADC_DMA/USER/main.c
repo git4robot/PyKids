@@ -2,21 +2,21 @@
 #include "delay.h"
 #include "sys.h"
 #include "usart.h"
+#include "dma.h"
 
 //ALIENTEK Mini STM32开发板范例代码3
 //串口实验   
 
 
 void ZRoboDMA_Init(void);
-void Adc_Init(void);
+void ZRoboADC_Init(void);
+
 
 /*基于DMA的ADC多通道采集*/
-
 volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3通道，每通道采集10次后面取平均数
-         
+#if 0  
 void ZRoboDMA_Init(void)
 {
-
     DMA_InitTypeDef DMA_InitStructure;
 
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);//使能时钟
@@ -38,7 +38,7 @@ void ZRoboDMA_Init(void)
     DMA_Cmd(DMA1_Channel1, ENABLE);//启动DMA通道一
 }
 
-void Adc_Init(void)
+void ZRoboADC_Init(void)
 {
     ADC_InitTypeDef ADC_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
@@ -79,19 +79,7 @@ void Adc_Init(void)
     ADC_StartCalibration(ADC1);
     while(ADC_GetCalibrationStatus(ADC1));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif
 
 
  int main(void)
@@ -105,13 +93,15 @@ void Adc_Init(void)
 	uart_init(9600);	 //串口初始化为9600
 	LED_Init();		  	 //初始化与LED连接的硬件接口 
  
+	 MYDMA_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)ADCConvertedValue,3*10);
+	 
 /*
 
 	int sum;
 	u8 i,j;
 	float ADC_Value[3];//用来保存经过转换得到的电压值
-	ADC_Init();
-	DMA_Init();
+	ZRoboADC_Init();
+	ZRoboDMA_Init();
 	
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);//开始采集
 
