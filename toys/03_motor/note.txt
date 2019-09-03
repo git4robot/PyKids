@@ -42,6 +42,7 @@ H-Bridge IC
 	MC33887			5-28V£¨5A£¨10kHz		Motorola
 	SN754410		4.5-36V 1A				TI
    *DRV8837 		1.8-7V 1.8A				TI
+	DRV8873   		4.5-38V 10A		with Integrated Current Sensing and Current Sense Output
   **HR8833
 	L298N
 	L293D …¢»»≤ª»Á298
