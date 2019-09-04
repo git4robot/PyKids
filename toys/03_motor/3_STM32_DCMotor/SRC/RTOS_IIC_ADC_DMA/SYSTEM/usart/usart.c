@@ -106,9 +106,8 @@ void uart_init(u32 bound){
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	//收发模式
 
   USART_Init(USART1, &USART_InitStructure); //初始化串口1
-  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断
+  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断**
   USART_Cmd(USART1, ENABLE);                    //使能串口1 
-
 }
 
 void USART1_IRQHandler(void)                	//串口1中断服务程序
