@@ -63,6 +63,8 @@ When PWM'ing at high frequencies (usually 20kHz to 30kHz), the current ripple ca
 Most of our brushed motor drivers use brake mode when automatically regulating current. An example of this is the DRV8870.
 If using brake for a long period of time, will cause the motor to stop faster than coast.
 
+7550 稳压IC 正电压输出的78××系列和负电压输出的79××系列
+7805
 STM32F103RCT6	256	48RAM	64Pins	
 STM32F103C8T6 64Flash 20RAM 48Pins
 姿态传感器 MPU6050	
