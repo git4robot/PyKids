@@ -41,6 +41,7 @@ https://github.com/misan/dcservo
 H-Bridge IC
 	MC33887			5-28V£¬5A£¬10kHz		Motorola
 	SN754410		4.5-36V 1A				TI
+	DRV8833
    *DRV8837 		1.8-7V 1.8A				TI
 	DRV8873   		4.5-38V 10A		with Integrated Current Sensing and Current Sense Output
   **HR8833
@@ -53,6 +54,12 @@ H-Bridge IC
 	VN5770AKP-E
 ****TB6612FNG		15V, 1.2A	2-motors
 	A3950ST			36V, 2.8A	1-motor		Ubtech
+
+https://forum.arduino.cc/index.php?topic=316340.0
+
+When PWM'ing at high frequencies (usually 20kHz to 30kHz), the current ripple can be minimized by using brake instead of coast. Brake recirculates he current in the winding during the off time. Using coast is less efficient from a current ripple and heat standpoint. The current decays faster, so the ripple is more. And more heat is generated in the FETs because the current path is through the body diodes.
+Most of our brushed motor drivers use brake mode when automatically regulating current. An example of this is the DRV8870.
+If using brake for a long period of time, will cause the motor to stop faster than coast.
 
 STM32F103RCT6	256	48RAM	64Pins	
 STM32F103C8T6 64Flash 20RAM 48Pins
