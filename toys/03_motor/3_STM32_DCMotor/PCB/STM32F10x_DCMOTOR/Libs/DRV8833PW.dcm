@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP DRV8833PW
+D Motor / Motion / Ignition Controllers & Drivers DRV8833 EVAL MOD
+K
+F http://www.ti.com/lit/ds/symlink/drv8833.pdf
+$ENDCMP
+#
+#End Doc Library

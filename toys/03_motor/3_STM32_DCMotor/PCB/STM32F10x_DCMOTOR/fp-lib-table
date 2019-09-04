@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name DRV8833PW)(type Legacy)(uri ${KIPRJMOD}/Libs/DRV8833PW.mod)(options "")(descr ""))
+  (lib (name STM32F103RCT6)(type Legacy)(uri ${KIPRJMOD}/Libs/STM32F103RCT6.mod)(options "")(descr ""))
+)
