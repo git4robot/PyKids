@@ -10,6 +10,8 @@ https://www.cnczone.com/forums/open-source-controller-boards/283428-cnc.html
 电子发烧友论坛
 http://bbs.elecfans.com/
 
+PCB
+https://componentsearchengine.com/part.php?partID=85952
 
 TOF range sensor
 VL53L0X  VL53L1x
