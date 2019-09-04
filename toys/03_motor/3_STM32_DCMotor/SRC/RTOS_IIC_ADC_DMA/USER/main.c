@@ -3,18 +3,20 @@
 #include "sys.h"
 #include "usart.h"
 #include "dma.h"
+#include "adc.h"
 
 //ALIENTEK Mini STM32开发板范例代码3
-//串口实验   
+//实验   
+// 1, 串口
+// 2, 基于DMA的ADC多通道采集
+
+volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3通道，每通道采集10次后面取平均数
 
 
+#if 0  
 void ZRoboDMA_Init(void);
 void ZRoboADC_Init(void);
 
-
-/*基于DMA的ADC多通道采集*/
-volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3通道，每通道采集10次后面取平均数
-#if 0  
 void ZRoboDMA_Init(void)
 {
     DMA_InitTypeDef DMA_InitStructure;
@@ -94,6 +96,7 @@ void ZRoboADC_Init(void)
 	LED_Init();		  	 //初始化与LED连接的硬件接口 
  
 	 MYDMA_Config(DMA1_Channel4,(u32)&USART1->DR,(u32)ADCConvertedValue,3*10);
+	 AdcDma_Init();
 	 
 /*
 
