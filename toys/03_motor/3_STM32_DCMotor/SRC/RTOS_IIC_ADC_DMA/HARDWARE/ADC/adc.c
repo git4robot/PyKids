@@ -36,7 +36,7 @@ void AdcDma_Init(void)
     RCC_ADCCLKConfig(RCC_PCLK2_Div6);
 
     ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-    ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+    ADC_InitStructure.ADC_ScanConvMode = ENABLE;	//模数转换工作在多通道模式
     ADC_InitStructure.ADC_ContinuousConvMode = ENABLE; //连续转换
     ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
     ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;

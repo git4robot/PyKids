@@ -26,7 +26,7 @@ void MYDMA_Config(DMA_Channel_TypeDef* DMA_CHx,u32 cpar,u32 cmar,u16 cndtr)
 {
  	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);	//(使能时钟)使能DMA传输
 	
-    DMA_DeInit(DMA_CHx);   //将DMA的通道1寄存器重设为缺省值
+  DMA_DeInit(DMA_CHx);   //将DMA的通道1寄存器重设为缺省值
 	DMA1_MEM_LEN=cndtr;
 	DMA_InitStructure.DMA_PeripheralBaseAddr = cpar;  //DMA外设ADC基地址
 	DMA_InitStructure.DMA_MemoryBaseAddr = cmar;  //DMA内存基地址(该参数用以定义DMA内存基地址(转换结果保存的地址))
