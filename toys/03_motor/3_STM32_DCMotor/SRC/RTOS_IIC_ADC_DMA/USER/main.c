@@ -14,9 +14,9 @@ volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3
 
 int main(void)
 {	
-	u8 t;
-	u8 len;	
-	u16 times=0; 
+	//u8 t;
+	//u8 len;	
+	//u16 times=0; 
 	int sum;
 	u8 i,j;
 	float ADC_Value[3];//用来保存经过转换得到的电压值
@@ -25,8 +25,8 @@ int main(void)
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);// 设置中断优先级分组2
 	uart_init(115200);	 //串口初始化为9600
 	LED_Init();		  	 //初始化与LED连接的硬件接口 
- 
-	MYDMA_Config(DMA1_Channel1,(u32)&USART1->DR,(u32)ADCConvertedValue,3*10);
+	////DMA外设ADC基地址 ADC1
+	MYDMA_Config(DMA1_Channel1,(u32)&ADC1->DR,(u32)ADCConvertedValue,3*10);
 	AdcDma_Init();
 	
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);//开始采集
@@ -35,6 +35,7 @@ int main(void)
 	
 	while(1)
 	{
+#if 0		
 		if(USART_RX_STA&0x8000)
 		{					   
 			len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
@@ -58,6 +59,7 @@ int main(void)
 			if(times%30==0)LED0=!LED0;//闪烁LED,提示系统正在运行.
 			delay_ms(10);   
 		}
+#endif
 		
 		for(i=0;i<3;i++)
 		{
@@ -68,11 +70,11 @@ int main(void)
 			}
 			ADC_Value[i]=(float)sum/(10*4096)*3.3;//求平均值并转换成电压值
 			//打印（略）
-			printf("[%d] = %f\r\n",i, ADC_Value[i]);
+			printf("[%d] = %.02f\r\n",i, ADC_Value[i]);
 			//USART_SendData(USART1, 3);
 		}
 		//延时（略）		
-		delay_ms(10);   
+		delay_ms(250);	  
 	}	 
 }
 
