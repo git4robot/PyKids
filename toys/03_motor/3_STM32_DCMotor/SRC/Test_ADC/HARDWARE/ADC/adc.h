@@ -20,4 +20,8 @@ u16  T_Get_Adc(u8 ch); //获得某个通道值
 u16  T_Get_Adc_Average(u8 ch,u8 times);//得到某个通道10次采样的平均值 	 
 double Get_Temprate(void);
 
+void adc_gpio_init_nodma(void);
+void adc_init_nodma(void);
+uint16_t read_adc_value_nodma(uint8_t ch);
+
 #endif 
