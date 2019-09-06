@@ -12,11 +12,11 @@
 // 1, 串口
 // 2, 基于DMA的ADC多通道采集
 
-volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3通道，每通道采集10次后面取平均数
+
 
 
 //任务优先级
-#define START_TASK_PRIO		1
+#define START_TASK_PRIO		0
 //任务堆栈大小	
 #define START_STK_SIZE 		128  
 //任务句柄
@@ -42,6 +42,17 @@ TaskHandle_t LED1Task_Handler;
 //任务函数
 void led1_task(void *pvParameters);
 
+//任务优先级
+#define ADC_MON_TASK_PRIO		1
+//任务堆栈大小	
+#define ADC_MON_STK_SIZE 		128  
+//任务句柄
+TaskHandle_t ADC_MONTask_Handler;
+//任务函数
+void vADCMonitorTask(void *pvParameters);
+
+volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3通道，每通道采集10次后面取平均数
+
 
 int main(void)
 {	
@@ -49,7 +60,7 @@ int main(void)
 	delay_init();	    	 //延时函数初始化	
 	uart_init(115200);	 //串口初始化为9600
 	LED_Init();		  	 //初始化与LED连接的硬件接口 
-#if 0	
+#if 1
 	////DMA外设ADC基地址 ADC1
 	MYDMA_Config(DMA1_Channel1,(u32)&ADC1->DR,(u32)ADCConvertedValue,3*10);
 	AdcDma_Init();
@@ -68,6 +79,7 @@ int main(void)
 							(void*          )NULL,                  //传递给任务函数的参数
 							(UBaseType_t    )START_TASK_PRIO,       //任务优先级
 							(TaskHandle_t*  )&StartTask_Handler);   //任务句柄              
+
 	vTaskStartScheduler();          //开启任务调度
 								
 	return 0;
@@ -76,6 +88,7 @@ int main(void)
 //开始任务任务函数
 void start_task(void *pvParameters)
 {
+	printf("start_task Running....\r\n");
     taskENTER_CRITICAL();           //进入临界区
     //创建LED0任务
     xTaskCreate((TaskFunction_t )led0_task,     	
@@ -90,7 +103,14 @@ void start_task(void *pvParameters)
                 (uint16_t       )LED1_STK_SIZE, 
                 (void*          )NULL,
                 (UBaseType_t    )LED1_TASK_PRIO,
-                (TaskHandle_t*  )&LED1Task_Handler);         
+                (TaskHandle_t*  )&LED1Task_Handler);       
+    //创建Demo任务
+    xTaskCreate((TaskFunction_t )vADCMonitorTask,     
+                (const char*    )"adc_monitor_task",   
+                (uint16_t       )ADC_MON_STK_SIZE, 
+                (void*          )NULL,
+                (UBaseType_t    )ADC_MON_TASK_PRIO,
+                (TaskHandle_t*  )&ADC_MONTask_Handler);   				
     vTaskDelete(StartTask_Handler); //删除开始任务
     taskEXIT_CRITICAL();            //退出临界区
 }
@@ -98,17 +118,18 @@ void start_task(void *pvParameters)
 //LED0任务函数 
 void led0_task(void *pvParameters)
 {
+    printf("led0_task Running....\r\n");
     while(1)
     {
         LED0=~LED0;
         vTaskDelay(500);
-			printf("led0_task Running....\r\n");
     }
 }   
 
 //LED1任务函数
 void led1_task(void *pvParameters)
 {
+	printf("led1_task Running....\r\n");
     while(1)
     {
         LED1=0;
@@ -118,8 +139,7 @@ void led1_task(void *pvParameters)
     }
 }
 
-#if 0
-static void vCheckTask( void *pvParameters )
+void vADCMonitorTask( void *pvParameters )
 {
 #if 0	
 	u8 t;
@@ -130,7 +150,7 @@ static void vCheckTask( void *pvParameters )
 	u8 i,j;
 	float ADC_Value[3];//用来保存经过转换得到的电压值
 	
-	printf("vCheckTask Running....\r\n");
+	printf("vADCMonitorTask Running....\r\n");
 	
 	while(1)
 	{
@@ -172,9 +192,10 @@ static void vCheckTask( void *pvParameters )
 			printf("[%d] = %.02f\r\n",i, ADC_Value[i]);
 			//USART_SendData(USART1, 3);
 		}
+		printf("\r\n\r\n");//插入换行
 		//延时（略）		
 		delay_ms(250);		
 	}	 
 	
 }
-#endif
+
