@@ -549,11 +549,6 @@
               <FilePath>..\FreeRTOS\queue.c</FilePath>
             </File>
             <File>
-              <FileName>stream_buffer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\FreeRTOS\stream_buffer.c</FilePath>
-            </File>
-            <File>
               <FileName>tasks.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\FreeRTOS\tasks.c</FilePath>
