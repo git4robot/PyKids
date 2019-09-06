@@ -14,25 +14,42 @@
 
 volatile u16 ADCConvertedValue[10][3];//用来存放ADC转换结果，也是DMA的目标地址,3通道，每通道采集10次后面取平均数
 
-static void vCheckTask( void *pvParameters );
-static void vLEDTask( void *pvParameters );
 
+//任务优先级
+#define START_TASK_PRIO		1
+//任务堆栈大小	
+#define START_STK_SIZE 		128  
+//任务句柄
+TaskHandle_t StartTask_Handler;
+//任务函数
+void start_task(void *pvParameters);
 
-/* The check task uses the sprintf function so requires a little more stack. */
-#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE + 50 )
+//任务优先级
+#define LED0_TASK_PRIO		2
+//任务堆栈大小	
+#define LED0_STK_SIZE 		50  
+//任务句柄
+TaskHandle_t LED0Task_Handler;
+//任务函数
+void led0_task(void *pvParameters);
 
-/* Task priorities. */
-#define mainQUEUE_POLL_PRIORITY				( tskIDLE_PRIORITY + 2 )
-#define mainCHECK_TASK_PRIORITY				( tskIDLE_PRIORITY + 3 )
+//任务优先级
+#define LED1_TASK_PRIO		3
+//任务堆栈大小	
+#define LED1_STK_SIZE 		50  
+//任务句柄
+TaskHandle_t LED1Task_Handler;
+//任务函数
+void led1_task(void *pvParameters);
+
 
 int main(void)
-{		
-	BaseType_t xReturn = pdPASS;
-	
-	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);// 设置中断优先级分组2
+{	
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);// 设置中断优先级分组2
 	delay_init();	    	 //延时函数初始化	
 	uart_init(115200);	 //串口初始化为9600
 	LED_Init();		  	 //初始化与LED连接的硬件接口 
+#if 0	
 	////DMA外设ADC基地址 ADC1
 	MYDMA_Config(DMA1_Channel1,(u32)&ADC1->DR,(u32)ADCConvertedValue,3*10);
 	AdcDma_Init();
@@ -40,33 +57,68 @@ int main(void)
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);//开始采集
 	
 	MYDMA_Enable(DMA1_Channel1);
+#endif	
 	printf("FreeRTOS Running....\r\n");
 	
-	/* Start the tasks defined within this file/specific to this demo. */
-  xReturn = xTaskCreate( vCheckTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );		
 	
-	if(pdPASS == xReturn) {
-		printf("xReturn pdPASS....\r\n");
-	}	
-	
-  xReturn = xTaskCreate( vLEDTask, "LCD", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY, NULL );
-													
-	vTaskStartScheduler();   /* 启动任务，开启调度 */ 
-	printf("main Running....\r\n");
+	//创建开始任务
+	xTaskCreate((TaskFunction_t )start_task,            //任务函数
+							(const char*    )"start_task",          //任务名称
+							(uint16_t       )START_STK_SIZE,        //任务堆栈大小
+							(void*          )NULL,                  //传递给任务函数的参数
+							(UBaseType_t    )START_TASK_PRIO,       //任务优先级
+							(TaskHandle_t*  )&StartTask_Handler);   //任务句柄              
+	vTaskStartScheduler();          //开启任务调度
+								
 	return 0;
 }
 
-static void vLEDTask(void* parameter)
-{   
-	printf("vLEDTask Running....\r\n");
-		while (1)
-		{
-				LED0=!LED0;
-				vTaskDelay(1000);   /* 延时500个tick */             
-				printf("AppTask Running....\r\n");
-		}
+//开始任务任务函数
+void start_task(void *pvParameters)
+{
+    taskENTER_CRITICAL();           //进入临界区
+    //创建LED0任务
+    xTaskCreate((TaskFunction_t )led0_task,     	
+                (const char*    )"led0_task",   	
+                (uint16_t       )LED0_STK_SIZE, 
+                (void*          )NULL,				
+                (UBaseType_t    )LED0_TASK_PRIO,	
+                (TaskHandle_t*  )&LED0Task_Handler);   
+    //创建LED1任务
+    xTaskCreate((TaskFunction_t )led1_task,     
+                (const char*    )"led1_task",   
+                (uint16_t       )LED1_STK_SIZE, 
+                (void*          )NULL,
+                (UBaseType_t    )LED1_TASK_PRIO,
+                (TaskHandle_t*  )&LED1Task_Handler);         
+    vTaskDelete(StartTask_Handler); //删除开始任务
+    taskEXIT_CRITICAL();            //退出临界区
 }
 
+//LED0任务函数 
+void led0_task(void *pvParameters)
+{
+    while(1)
+    {
+        LED0=~LED0;
+        vTaskDelay(500);
+			printf("led0_task Running....\r\n");
+    }
+}   
+
+//LED1任务函数
+void led1_task(void *pvParameters)
+{
+    while(1)
+    {
+        LED1=0;
+        vTaskDelay(200);
+        LED1=1;
+        vTaskDelay(800);
+    }
+}
+
+#if 0
 static void vCheckTask( void *pvParameters )
 {
 #if 0	
@@ -125,3 +177,4 @@ static void vCheckTask( void *pvParameters )
 	}	 
 	
 }
+#endif
