@@ -1,3 +1,5 @@
+https://www.sz-jlc.com/ PCB打样
+
 https://forum.arduino.cc/index.php?topic=361718.0
 https://forum.poppy-project.org/t/powering-poppy-with-openservo-v4/148
 ！！！！
@@ -103,3 +105,11 @@ https://github.com/automation-technology-club/NFC-indoor-location-Mockup
 pom塑料齿轮
 
 https://github.com/open-rdc
+
+舵机测试仪
+https://www.amobbs.com/forum.php?mod=viewthread&tid=4694728
+研究舵机
+https://www.amobbs.com/thread-5053868-1-1.html?_dsign=7a8aec47
+https://www.amobbs.com/thread-5471538-1-1.html?_dsign=38abbbc8
+
+36.4 KB (37,287 字节)
