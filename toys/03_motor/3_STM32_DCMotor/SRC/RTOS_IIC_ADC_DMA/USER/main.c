@@ -6,12 +6,12 @@
 #include "adc.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "PCA9685.h"
 
 //ALIENTEK Mini STM32开发板范例代码3
 //实验   
 // 1, 串口
 // 2, 基于DMA的ADC多通道采集
-
 
 
 
