@@ -93,6 +93,7 @@ ZXCT1009 电流监控器
 HT7550 SOT89 三端稳压芯片 电压稳压器
 建议用中断加DMA。
 现在我搭载在自己写的实时内核，一个总线挂了四五个设备，各个任务乱序访问，一点问题也没发现过。
+MAX4172 
 
 fxanhkhoa/stm32f103_i2c--multi-sensor-mpu9250
 https://github.com/fxanhkhoa/stm32f103_i2c--multi-sensor-mpu9250
