@@ -27,6 +27,11 @@ https://componentsearchengine.com/part.php?partID=85952
 TOF range sensor
 VL53L0X  VL53L1x
 
+DC Servomotor Controller(！！好资料！！)
+http://elm-chan.org/works/smc/report_e.html
+STM32 PID Servo control
+https://github.com/rooi-oog/STM32_PID
+
 openservo:
 https://github.com/ginge
 https://www.robotshop.com/
@@ -54,7 +59,7 @@ https://github.com/misan/dcservo
 H-Bridge IC
 	MC33887			5-28V，5A，10kHz		Motorola
 	SN754410		4.5-36V 1A				TI
-	DRV8833
+	DRV8833			 5 V, 1.5-A
    *DRV8837 		1.8-7V 1.8A				TI
 	DRV8873   		4.5-38V 10A		with Integrated Current Sensing and Current Sense Output
   **HR8833
@@ -65,9 +70,14 @@ H-Bridge IC
 	TA7257P			6-18V 4.5A
 	VNH5200AS-E
 	VN5770AKP-E
-****TB6612FNG		15V, 1.2A	2-motors
+****TB6612FNG		15V, 1.2A	2-motors    RMB8.0
 	A3950ST			36V, 2.8A	1-motor		Ubtech
-
+	AT8841			杭州中科微电子 http://www.icofchina.com/pro/mada/
+	
+	IR2101半桥驱动电机https://www.cnblogs.com/clnchanpin/p/7043803.html
+	
+	DRV8841: https://yatao.blog.csdn.net/article/details/90574517
+	
 测试L298N, TB6612FNG and LV8406T
 https://forum.makeblock.com/t/the-review-of-dc-motor-drivers-l298n-tb6612fng-and-lv8406t/372
 
@@ -89,7 +99,7 @@ SI2302这款MOS管
 AMS1117
 
 rt9193 300mA,超低噪音,超高速CMOS LDO稳压器
-ZXCT1009 电流监控器
+ZXCT1009 电流监控器(ACS712交流检测)
 HT7550 SOT89 三端稳压芯片 电压稳压器
 建议用中断加DMA。
 现在我搭载在自己写的实时内核，一个总线挂了四五个设备，各个任务乱序访问，一点问题也没发现过。
