@@ -142,6 +142,9 @@ https://blog.csdn.net/tichimi3375/article/details/80659255 FreeRTOS使用
 https://easyeda.com/jeanfreitas/pcb2-placa
 pcb
 
+平衡车
+http://www.51hei.com/bbs/dpj-135469-1.html
+
 本文主要介绍几款本土高性价比的电机驱动芯片，可直接替换一些国外进口型号芯片，主要适 用于各种消费类电子产品，提升客户产品竞争力。
 1：HR4988
 控制方式：STEP/DIR，2个H桥，细分：1-1/16，逻辑电源电压：3.0-5.5V，功率电压：8-38V，输出电流：2.0A QFN28，可以完全pin to pin A4988，价格和供货这块相对比较稳定。
