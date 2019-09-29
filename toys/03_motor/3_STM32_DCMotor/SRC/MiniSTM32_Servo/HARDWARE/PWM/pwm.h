@@ -15,7 +15,6 @@ void TIM8_4PWM_Init(u16 arr,u16 psc);
 void TIM2_3PWM_Init(u16 arr,u16 psc);
 void TIM2_4PWM_Init(u16 arr,u16 psc);
 void TIM3_2PWM_Init(u16 arr,u16 psc);
-	
-//void TIM3_PWM_Init(u16 arr,u16 psc);
+
 	
 #endif
