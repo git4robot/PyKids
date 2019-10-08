@@ -115,7 +115,13 @@ https://github.com/fxanhkhoa/NCKH_WAND
 
 https://www.phidgets.com/docs/DC_Motor_and_Controller_Primer
 
+a4959lpt
+mpgd 3510 a974
+yj33
+avqg 632
 Postion Sensors:
+https://github.com/nickhudspeth/AS5600
+MA730GQ 代替 AS5145B AS5048A AS5040 MPS730
 This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.迈德尔传感	
 AS5045		14bit
 AS5600		12bit	0.05deg
