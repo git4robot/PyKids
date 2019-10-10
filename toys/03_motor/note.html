@@ -110,6 +110,32 @@ https://github.com/ginge
 https://www.robotshop.com/
 https://www.robotshop.com/community/
 
+Speed Control of DC Motor Using PID Algorithm (STM32F4)<img src='./note_files/SpeedControl_PID_STM32F4.jpg'>
+https://www.instructables.com/id/Speed-Control-of-DC-Motor-Using-PID-Algorithm-STM3/
+
+https://www.robotshop.com/community/forum/t/servo-position-angle-control-using-pid-controller/42507
+There are other open source servo projects as well (just do a Google search).
+Ex: https://odriverobotics.com/ 11
+Q) Do I need encoder?
+You need something to give you absolute positioning - normally a potentiometer or encoder
+
+Q) How can I control the angle?
+Your microcontroller will read the current angle, and (based on input) the desired angle. The PID algorithm within the microcontroller will effectively control the motor’s speed (the microcontroller will send velocity commands to the motor controller which controls the motor’s speed and direction).
+
+Q) does it have any dynamics of transfer function?
+Start with a PID and then refine it. You can get as complex as you’d like.
+
+Q) Is the input of the servo is PWM?
+If you’re creating a normal RC servo, then yes, the input is a timed 5V pulse which the microcontroller then interprets as a position.
+
+Q) so the PID generates PWM?
+The PID is used to provide speed and direction values to a motor controller. It does not have anything to do with the input (which only relates to the desired end position / angle).
+
+Position Sensor -> Microcontroller (PID)
+RC PWM Input -> Microcontroller (PID) -> Motor controller (PWM / Serial / I2C etc.) -> Motor
+
+Hope this helps.
+
 DIY Servo Motor
 https://roamingdrone.wordpress.com/2008/07/24/diy-servo-with-arduino-dc-motor-and-potentiometer/
 https://www.instructables.com/id/DIY-Servo-Motor/
