@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        summary{color:#F00;text-align:left;}
+        p{color:#000;text-indent:2em;}
+		pre {
+		font-size: 18px; font-family: "微软雅黑"; color:#000;
+		white-space: pre-wrap;
+		white-space: -moz-pre-wrap;
+		white-space: -pre-wrap;
+		white-space: -o-pre-wrap;
+		*word-wrap: break-word;
+		*white-space : normal ;  
+		}		
+    </style>
+</head>
+<body>
+
+<details>
+<summary>I2C通信一般性问题</summary>
+<pre>
+I2C 总线比较简单，可能的问题主要出在时序上，一般设计者即使忽略也不太会有麻烦，但是有几个指标一定要认真考虑：
+1.总线驱动能力。上拉电阻和负载电容决定了总线在某一速率下的稳定性。当输出为高时，电流通过上拉电阻对负载电容充电。上拉越大，电容越大，所需要的时间就越长，如果超过了通信周期的10%，那么这个上升沿就太缓了，相应的建立时间会受到影响，I2C规范的最大负载电容是400pF，快速模式下是100pF。如果输出为低，电流通过上拉电阻被I2C master器件吸取，（注意根据I2C规范，最小只有3毫安的吸取电流）那么这个吸取电流在上拉电阻上的压降就决定了输出低电平能达到的范围，如果不能达到0.3VDD以下，就会有误采样。有人说加大上拉电阻是不妥当的，要具体分析吸取电流、负载电容、上拉电平和通信速率才能决定（普通模式和快速模式是不一样的）。
+
+2.总线空闲时间（bus free time）。它的定义是从上一次通信的停止到下一次通信的开始的间隔时间。对CPU来说，它往往是I2C的master 器件，由于运行速度很快，这个指标如果不注意的话就会达不到，导致I2C总线不响应。另外要注意的是CPU内部的I2C停止时刻标志位置位和硬件总线上的I2C停止标志（clock 为高时数据从低到高的跳变）时刻往往是不一致的。有的芯片有15-20个微秒的差别，所以要用示波器量出来为准。
+
+3.总线保持时间。I2C的总线建立和保持与有的时序定义不一样。建立时间是指从数据跳变沿到时钟上升沿的间隔；而保持时间是指从时钟下降沿到数据下一个跳变沿的间隔。通常建立时间都能保证。
+
+【问题1】完全不能进行读写:
+(1) 通信协议不正确：有很多的I2C设备，并不支持所有的I2C协议，同时也不是一个比较标准的I2C设备；软件的通信时序要详细看一下设备资料。
+(2) I2C设备地址不正确：有很多的I2C设备的地址是可以通过硬件设定的；也有器件资料提供的数据是错误的。
+（3）I2C通信线上没有加上拉电阻：由于I2C的从设备的SDA，SCL的PIN是输出开漏的，所以必须加上拉电阻，同时根据I2C设备的数量上拉电阻的大小也会不同。从1K~10K，具体的见连接。
+（4）I2C设备损坏：有时我们会经常遇到问题时总是认为我们自己在软件上是不是有问题，是不是电路上没有焊接好，实际上都不是，而是器件是坏的。
+
+【问题2】读或写失败，不能正确的读写某个地址的数据：
+（1）电路干扰：在I2C设备的电源入口处没有加滤波电路，一般入口处加10nF或 0.1uF电容；SDA，SCL线上干扰，没有滤波处理，线上串一几十ohm电阻，对地加几十pF电容；千万别小看这几颗小小的电容！
+（2）通信时序：读写时速度过快。
+
+【解决办法】
+
+（1）如果完全不能读写，需要详细看设备资料，及电路检查。
+（2）通信不稳定或者有部分读写错误：
+1.调整SCL/SDA上拉电阻（阻值越小，上升时间越短，受干扰几率越低，但根据I2C协议要求，上拉电阻不能取得太小，需大于(VDD-Volmax)/3mA=(3.3V-0.4V)/3mA=0.97K），可有效解决I2C稳定性问题。
+2.电路板焊接不够良好、电源不稳、电路复杂、地线回路不好，等都会引起信号有毛刺，需要对电源滤波，和对SDA/SCL串接几十到100多欧的电阻并上个几十pF的电容进行滤波处理。
+3．降低通信速率有时也能有效提高通信稳定性。
+4．通过软件编程进行信号消抖处理，用高速时钟对信号进行多次采样以准确判断SCL/SDA的高低电平，由此避开信号的亚稳态阶段。
+5. 为了防止通信过程中的测量，静电，反复断电等因素对管脚的损害，一定要加TVS管，在测量中我已经烧过两次管脚了，这给我极大的教训。
+
+【问题2】I2c读EEPROM的问题
+
+下面是我在读一些EEPROM时发现有些EEPROM能进行读写，有些能单读却怎么也无法写入。原因如下：
+
+1.     在读写EEPROM时，发现的一定要注意EEPROM的容量，这将决定器件的随机字地址。
+
+2.     当EEPROM的地址超过32k时，随机字地址超过11位（8位的偏移地址+器件地址保留3位页地址），此时器件的偏移地址需要16bit来保证寻址。故编程需要考虑到此类EEPROM的读写问题。
+
+【总结】
+
+I2C通信是一种低速信号通信，即便面对低速信号，我们也不能掉以轻心，信号通信的干扰问题，以及其缓慢的上升沿或下降沿（满足其规范要求）造成其处于亚稳态的时间过长问题，而在这段不定态的时间待得越长就越危险，其受到干扰的几率就越大！
+
+另外当你去解决问题时要注意会不会引来新的问题从而造成更大的麻烦，所以要综合考量，更要多去尝试，实践才是最重要的。
+</pre>
+</details>
+
+<details>
+<summary>PCB IC SMT</summary>
+<pre>
+PCB SMT
+http://club.szlcsc.com/article/details_963_1.html
+
+QQ：360288148
+https://www.amobbs.com/thread-4694728-2-1.html
+ID: aydali, caihong001, mandylion2008, hujiaqisr71, baikenor
+http://lucy.vub.ac.be/
+https://www.microchip.com/
+
+https://www.sz-jlc.com/ PCB打样
+
+PCA9685--16路 PWM模块舵机驱动板--STM32 IIC接口模块
+
+
+https://forum.arduino.cc/index.php?topic=361718.0
+https://forum.poppy-project.org/t/powering-poppy-with-openservo-v4/148
+！！！！
+https://github.com/alvaroferran/IntelliServo
+
+CNC-zone
+https://www.cnczone.com/forums/open-source-controller-boards/283428-cnc-8.html
+https://www.cnczone.com/forums/open-source-controller-boards/283428-cnc.html
+
+电子发烧友论坛
+http://bbs.elecfans.com/
+
+PCB
+https://componentsearchengine.com/part.php?partID=85952
+
+TOF range sensor
+VL53L0X  VL53L1x
+
+DC Servomotor Controller(！！好资料！！)
+http://elm-chan.org/works/smc/report_e.html
+STM32 PID Servo control
+https://github.com/rooi-oog/STM32_PID
+
+openservo:
+https://github.com/ginge
+https://www.robotshop.com/
+https://www.robotshop.com/community/
+
+DIY Servo Motor
+https://roamingdrone.wordpress.com/2008/07/24/diy-servo-with-arduino-dc-motor-and-potentiometer/
+https://www.instructables.com/id/DIY-Servo-Motor/
+https://www.hobbyist.co.nz/?q=convert-dc-motor-to-servo-using-arduino
+http://www.audiohms.com/en/blog/item/156-convert-dc-motor-into-dc-servo-motor
+
+Robot Learning:
+https://www.bilibili.com/video/av18516816/?p=22
+Servo Details:
+https://dronebotworkshop.com/servo-motors-with-arduino/
+
+https://github.com/DroneBotWorkshop/arduino-projects
+
+LIDAR:
+https://dronebotworkshop.com/getting-started-with-lidar/
+
+***dcservo
+https://github.com/misan/dcservo
+
+H-Bridge IC
+	MC33887			5-28V，5A，10kHz		Motorola
+	SN754410		4.5-36V 1A				TI
+	DRV8833			 5 V, 1.5-A
+   *DRV8837 		1.8-7V 1.8A				TI
+	DRV8873   		4.5-38V 10A		with Integrated Current Sensing and Current Sense Output
+  **HR8833
+	L298N
+	L293D 散热不如298
+	L9110H
+  **TA6586	
+	TA7257P			6-18V 4.5A
+	VNH5200AS-E
+	VN5770AKP-E
+****TB6612FNG		15V, 1.2A	2-motors    RMB8.0
+	A3950ST			36V, 2.8A	1-motor		Ubtech
+	AT8841			杭州中科微电子 http://www.icofchina.com/pro/mada/
+	
+	IR2101半桥驱动电机https://www.cnblogs.com/clnchanpin/p/7043803.html
+	
+	DRV8841: https://yatao.blog.csdn.net/article/details/90574517
+	
+测试L298N, TB6612FNG and LV8406T
+https://forum.makeblock.com/t/the-review-of-dc-motor-drivers-l298n-tb6612fng-and-lv8406t/372
+
+https://forum.arduino.cc/index.php?topic=316340.0
+
+When PWM'ing at high frequencies (usually 20kHz to 30kHz), the current ripple can be minimized by using brake instead of coast. Brake recirculates he current in the winding during the off time. Using coast is less efficient from a current ripple and heat standpoint. The current decays faster, so the ripple is more. And more heat is generated in the FETs because the current path is through the body diodes.
+Most of our brushed motor drivers use brake mode when automatically regulating current. An example of this is the DRV8870.
+If using brake for a long period of time, will cause the motor to stop faster than coast.
+
+7550 稳压IC 正电压输出的78××系列和负电压输出的79××系列
+7805
+STM32F103RCT6	256	48RAM	64Pins	
+STM32F103C8T6 64Flash 20RAM 48Pins
+姿态传感器 MPU6050	
+气压计使用的是FBM320 BMP280、SPL06
+SI2302这款MOS管
+无线芯片：SI24R1 NRF24L01
+	
+AMS1117
+
+rt9193 300mA,超低噪音,超高速CMOS LDO稳压器
+ZXCT1009 电流监控器(ACS712交流检测)
+HT7550 SOT89 三端稳压芯片 电压稳压器
+建议用中断加DMA。
+现在我搭载在自己写的实时内核，一个总线挂了四五个设备，各个任务乱序访问，一点问题也没发现过。
+MAX4172 INA194，195 TI 
+
+fxanhkhoa/stm32f103_i2c--multi-sensor-mpu9250
+https://github.com/fxanhkhoa/stm32f103_i2c--multi-sensor-mpu9250
+https://github.com/fxanhkhoa/NCKH_WAND
+
+
+https://www.phidgets.com/docs/DC_Motor_and_Controller_Primer
+
+a4959lpt
+mpgd 3510 a974
+yj33
+avqg 632
+Postion Sensors:
+https://github.com/nickhudspeth/AS5600
+MA730GQ 代替 AS5145B AS5048A AS5040 MPS730
+This version uses the AS5045 magnetic sensor, the next version will use AS5600 or MLX90316.迈德尔传感	
+AS5045		14bit
+AS5600		12bit	0.05deg
+TLE5012B	15bit	0.01deg
+MLX90316	14bit
+HMC1501      磁阻传感器 
+KMZ41
+IIC Switch,I2C多路复用器: PCA9548A,
+L298 Motor Drive Demos
+Sketches show different ways to make DC motors have direction and speed control.
+https://github.com/automation-technology-club/L298-Motor-Drive-Demos
+
+For Indoor Robotic navigation using NFC Tags
+https://github.com/automation-technology-club/NFC-indoor-location-Mockup
+
+pom塑料齿轮
+http://www.gearbbs.com/ 
+
+https://github.com/open-rdc
+
+舵机测试仪
+https://www.amobbs.com/forum.php?mod=viewthread&tid=4694728
+研究舵机
+https://www.amobbs.com/thread-5053868-1-1.html?_dsign=7a8aec47
+https://www.amobbs.com/thread-5471538-1-1.html?_dsign=38abbbc8
+
+36.4 KB (37,287 字节)
+
+https://blog.csdn.net/tichimi3375/article/details/80659255 FreeRTOS使用
+
+https://easyeda.com/jeanfreitas/pcb2-placa
+pcb
+
+平衡车
+http://www.51hei.com/bbs/dpj-135469-1.html
+
+本文主要介绍几款本土高性价比的电机驱动芯片，可直接替换一些国外进口型号芯片，主要适 用于各种消费类电子产品，提升客户产品竞争力。
+1：HR4988
+控制方式：STEP/DIR，2个H桥，细分：1-1/16，逻辑电源电压：3.0-5.5V，功率电压：8-38V，输出电流：2.0A QFN28，可以完全pin to pin A4988，价格和供货这块相对比较稳定。
+2：HR4985
+控制方式：STEP/DIR，2个H桥，细分：1-1/8，逻辑电源电压：3.0-5.5V，功率电压：8-38V，输出电流：1.0A QFN24。
+3：HR8826
+控制方式：STEP/DIR，2个H桥，细分：1-1/32，逻辑电源电压：3.3V（内建），功率电压：8-42V，输出电流：3.0A HTSSOP28，可完全pin to pin DRV8825，价格和供货相对稳定。
+4：HR8833
+控制方式：PWM，2个H桥，逻辑电源电压：3.3V（内建），功率电压：2.7-12.8V，输出电流：1.5A eTSSOP16/QFN16，可完全pin to pin DRV8833，价格和供货相对稳定。
+5：AT4950
+控制方式：PWM，1个H桥，功率电压：6.5-32V，输出电流：3.5A eSOP8，可完全pin to pin A4950，价格和供货相对稳定。
+对以上电机驱动芯片有兴趣的朋友可以随时联系：15814460382 陈生
+————————————————
+</pre>
+</details>
+
+
+<details>
+<summary>TitleXXX</summary>
+<pre>
+
+</pre>
+</details>
+
+
+<details>
+<summary>TitleXXX</summary>
+<pre>
+
+</pre>
+</details>
+
+
+<details>
+<summary>TitleXXX</summary>
+<pre>
+
+</pre>
+</details>
+
+</body>
+</html>
