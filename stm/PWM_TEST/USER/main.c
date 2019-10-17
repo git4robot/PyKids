@@ -9,38 +9,65 @@
 #define key3 PAin(0)
 
 
-void TIM3_CH1_Init(u32 fcount);
-
+void TIM3_CH1_Init();
+void TIM3_CH2_Init();
 
 int main()
 {
+	u8 flag = 20;
+	
     KEY_Init();
     delay_init();	    	     //延时函数初始化
     LED_Init();		  	          //初始化与LED连接的硬件接口	
-    TIM3_CH1_Init(100);
-
-	TIM_SetCompare1(TIM3, 50);
-	delay_us(1000);
-	TIM_SetCompare1(TIM3, 0);
-	delay_us(10);
-	TIM_SetCompare1(TIM3, 100);
-	delay_us(2000);
-	TIM_SetCompare1(TIM3, 0);
+    TIM3_CH1_Init();
+	TIM3_CH2_Init();
+	
+	// 占空比：x / 20
+	TIM_SetCompare1(TIM3, 16);	
+	TIM_SetCompare2(TIM3, 0);
+	delay_ms(2000);
+	TIM_SetCompare1(TIM3, 8);	// 8/20 = 40%
+	TIM_SetCompare2(TIM3, 0);
+	delay_ms(2000);
+	
     while(1)
     {
-        u8 i;
-
-        for(i=10; i<=100; i+=10)
-        {
-            delay_us(5);
-
-            //TIM_SetCompare1(TIM3,i);
-        }
+		if(flag == 20) {
+			flag = 0;
+		} else {
+			flag = 20;
+		}
+		
+		// 占空比：x / 20
+		TIM_SetCompare1(TIM3, 13);	
+		TIM_SetCompare2(TIM3, 0);
+		delay_ms(5000);
+		TIM_SetCompare1(TIM3, 13);	
+		TIM_SetCompare2(TIM3, 20);
+		delay_ms(5000);		
+		TIM_SetCompare1(TIM3, 0);	
+		TIM_SetCompare2(TIM3, 13);
+		delay_ms(5000);	
+		TIM_SetCompare1(TIM3, 20);	
+		TIM_SetCompare2(TIM3, 13);
+		delay_ms(5000);			
+		//TIM_SetCompare1(TIM3, 4);	// 8/20 = 40%
+		//TIM_SetCompare2(TIM3, flag);
+		//delay_ms(3000);	
+		
+		#if 0
+		TIM_SetCompare1(TIM3, 6);	//6/20 = 30%
+		TIM_SetCompare2(TIM3, 12);	// 12/20 = 60%
+		delay_us(2000);
+		TIM_SetCompare1(TIM3, 0);
+		TIM_SetCompare2(TIM3, 0);
+		#endif
+		delay_us(2000);
     }
 }
 
 
-void TIM3_CH1_Init(u32 fcount)
+void TIM3_CH1_Init()
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
@@ -54,12 +81,12 @@ void TIM3_CH1_Init(u32 fcount)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6; //TIM3_CH1
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  //复用推挽输出
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);	
-
-    TIM3_CH1.TIM_Period=fcount;  //自动重载值
-
-    TIM3_CH1.TIM_Prescaler=71;  //分频系数
-
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+	//arr=499 psc=71 -->PWM 频率=72000000/(500*72)=2khz， 周期=0.0005s
+	TIM3_CH1.TIM_Period=20-1;  //自动重载值	
+    TIM3_CH1.TIM_Prescaler=72-1;  //分频系数 72,000,000Hz /(20*72) = 50kHz
+	
     TIM3_CH1.TIM_CounterMode=TIM_CounterMode_Up;
 
     TIM3_CH1.TIM_ClockDivision=TIM_CKD_DIV1;
@@ -71,15 +98,60 @@ void TIM3_CH1_Init(u32 fcount)
 
     TIM3_OC_PWM.TIM_OutputState=TIM_OutputState_Enable;
 
-    TIM3_OC_PWM.TIM_OCPolarity=TIM_OCPolarity_Low;
+    TIM3_OC_PWM.TIM_OCPolarity=TIM_OCPolarity_High;
 
-    TIM3_OC_PWM.TIM_Pulse=(fcount/2);//占空比为50%
+    TIM3_OC_PWM.TIM_Pulse=0;//占空比为50%
 
     TIM_OC1Init(TIM3,&TIM3_OC_PWM);
 
     TIM_OC1PreloadConfig(TIM3,TIM_OCPreload_Enable);
 
     TIM_ARRPreloadConfig(TIM3,ENABLE);
+
+    TIM_Cmd(TIM3,ENABLE);
+}
+
+
+void TIM3_CH2_Init()
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+    TIM_TimeBaseInitTypeDef TIM3_CH2;
+
+    TIM_OCInitTypeDef TIM3_OC_PWM;
+
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+
+    //设置该引脚为复用输出功能,输出TIM1 CH1的PWM脉冲波形
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7; //TIM3_CH2
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  //复用推挽输出
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);	
+
+	//arr=499 psc=71 -->PWM 频率=72000000/(500*72)=2khz， 周期=0.0005s
+	TIM3_CH2.TIM_Period=20-1;  //自动重载值	
+    TIM3_CH2.TIM_Prescaler=72-1;  //分频系数 72,000,000Hz /(20*72) = 50kHz
+
+    TIM3_CH2.TIM_CounterMode=TIM_CounterMode_Up;
+
+    TIM3_CH2.TIM_ClockDivision=TIM_CKD_DIV1;
+
+    TIM_TimeBaseInit(TIM3,&TIM3_CH2);
+
+
+    TIM3_OC_PWM.TIM_OCMode=TIM_OCMode_PWM1;
+
+    TIM3_OC_PWM.TIM_OutputState=TIM_OutputState_Enable;
+
+    TIM3_OC_PWM.TIM_OCPolarity=TIM_OCPolarity_High;
+
+    TIM3_OC_PWM.TIM_Pulse=0;//占空比为50%
+
+    TIM_OC2Init(TIM3,&TIM3_OC_PWM);
+
+    TIM_OC2PreloadConfig(TIM3,TIM_OCPreload_Enable);
+
+    TIM_ARRPreloadConfig(TIM3, ENABLE);
 
     TIM_Cmd(TIM3,ENABLE);
 }
