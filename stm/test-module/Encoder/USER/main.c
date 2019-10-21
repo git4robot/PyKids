@@ -1,0 +1,212 @@
+#include "led.h"
+#include "delay.h"
+#include "sys.h"
+#include "usart.h"
+#include "pwm_as5600.h"
+//ALIENTEK Mini STM32开发板范例代码3
+//串口实验
+//技术支持：www.openedv.com
+//广州市星翼电子科技有限公司
+
+
+u32 pwm = 50000;
+
+uint32_t read_cnt(void);
+void encoder_init(void);
+
+void TIM2_IRQHandler(void);
+void TIM2_Cap_Init(u16 arr,u16 psc);
+u8  TIM2CH1_CAPTURE_STA;		//输入捕获状态
+u16	TIM2CH1_CAPTURE_VAL;	//输入捕获值
+
+//URL: https://blog.csdn.net/weixin_44692935/article/details/97419594
+//思路：初始化TIM的编码器模式后，在main函数里死循环不断的读取CNT的值，从而来获得电机的脉冲数数据，以此来计算电机的转速、所转圈数等参数
+int main(void)
+{
+    u32 temp=0;
+    uint32_t cnt_temp;			//用于暂存TIM的计数值，即TIM检测到的脉冲的数量
+    float pulse;				//电机产生的实际脉冲值
+    float round;				//电机转的圈数
+
+    encoder_init();				//TIM3编码器模式初始化，A6、A7分别作为A相和B相的脉冲输入
+    LED_Init();		  	 //初始化与LED连接的硬件接口
+
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	//设置系统中断优先级分组2
+    delay_init();  									//初始化延时函数
+    uart_init(115200);								//初始化串口波特率为115200
+    //84M/84=1Mhz的计数频率,重装载值50000，所以PWM频率为100000/50000=2hz，即整个周期为500ms
+
+    TIM2_Cap_Init(0XFFFF,72-1);		//以1Mhz的频率计数
+
+	PWM_INPUT_Config();
+	
+    // 霍尔传感器41E，通过输入捕获计数来实现测速
+    while(1)
+    {
+        delay_ms(10);
+        if(TIM2CH1_CAPTURE_STA&0X80)//成功捕获到了一次高电平
+        {
+            temp=TIM2CH1_CAPTURE_STA&0X3F;
+            temp*=65536;					//溢出时间总和
+            temp+=TIM2CH1_CAPTURE_VAL;		//得到总的高电平时间
+            printf("HIGH:%d us\r\n",temp);	//打印总的高点平时间
+            TIM2CH1_CAPTURE_STA=0;			//开启下一次捕获
+        }
+    }
+#if 0
+    // 霍尔编码或光电编码，通过STM32的编码器获取AB相正交编码
+    while(1)
+    {
+        cnt_temp = read_cnt();						//得到脉冲计数值
+        pulse = cnt_temp/4.0f;						//由于是TIM_EncoderMode_TI12，所以要四分频，即除以四，得到实际的脉冲值
+        round = cnt_temp/4.0f/334.0f;				//假设电机每转产生334个脉冲，则通过该公式可求出电机转了几圈
+        printf("cnt_temp:%d\r\n", cnt_temp);		//向串口打印脉冲计数值
+        printf("pulse:%f\r\n", pulse);				//向串口打印实际脉冲值
+        printf("round:%f\r\n", round);				//向串口打印电机转了几圈
+        printf("\r\n");
+        delay_ms(1000);								//每1s循环更新一次
+//		if(TIM3->CR1&1<<4)	printf("forward");
+//		else	printf("backward");
+    }
+#endif
+}
+
+
+//把TIM3理解为一个计数器而不是一个定时器，则没有了时序信号。
+//这里TIM3的时钟信号（或者说是计数信号）将由电机编码器输出的脉冲代替，也就是说电机脉冲信号成为TIM3的信号，电机每产生一个脉冲被TIM3检测到，则计数器CNT加一（类比于时序信号时每隔一个时间段计数值加一）
+//这样的话，输入捕获的自动重装载值period则影响着脉冲值计数到多少之后就溢出，比如65535的话，则接收到65535个脉冲信号之后计数值置零溢出
+//这样的话，输入捕获的预分频系数prescaler的作用是，当我不分频时，来一个电机脉冲信号我计数值就加一，当我二分频时，只有接收到两个脉冲信号我才认为是一个有效脉冲，计数值才加一，简单来说就是计数值总体除以二了
+//这样我们就把输入捕获初始化完成了，接下来是编码器模式的初始化
+//设为TIM_EncoderMode_TI12模式，即计数器在TI1和TI2上升沿处均计数，再根据设置的极性是TIM_ICPolarity_Rising，也就是在TI1和TI2的上升沿计数器累加（或累减）-->那么到时候要除以二
+//这样，编码器的初始化就完成了，接下来我们只要通过函数得出它的计数值，就可以知道电机产生的脉冲数，再根据电机的参数（每转产生多少个脉冲）就可以得到电机转了几圈
+
+//初始化编码器
+void encoder_init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+    TIM_ICInitTypeDef TIM_ICInitStructure;
+
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3,ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
+
+    //GPIO(根据所选的TIM)
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    //Specifies the prescaler value used to divide the TIM clock.
+    //也就是说，这里的TIM3的时钟信号其实是由A/B相的频率来决定的，类似于外部时钟，然后分频就是对这个脉冲频率分频，比如二分频就是把两个脉冲记为一个脉冲。
+    TIM_TimeBaseStructure.TIM_Prescaler = 1-1;					//这里我们把它设为1，即不分频
+    TIM_TimeBaseStructure.TIM_Period = 65535;					//每来一个脉冲信号的上升沿（下面有设置）计数值就累加（或累减），65535则为最大计数值，就溢出了
+    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+//	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up; //这里按理来说应该不起作用，因为计数方向是受TI1和TI2信号的影响的
+    TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+
+    TIM_ICStructInit(&TIM_ICInitStructure);						//Fills each TIM_ICInitStruct member with its default value
+    //相当于：
+    //	void TIM_ICStructInit(TIM_ICInitTypeDef* TIM_ICInitStruct)
+    //	{
+    //	  /* Set the default configuration */
+    //	  TIM_ICInitStruct->TIM_Channel = TIM_Channel_1;
+    //	  TIM_ICInitStruct->TIM_ICPolarity = TIM_ICPolarity_Rising;
+    //	  TIM_ICInitStruct->TIM_ICSelection = TIM_ICSelection_DirectTI;
+    //	  TIM_ICInitStruct->TIM_ICPrescaler = TIM_ICPSC_DIV1;
+    //	  TIM_ICInitStruct->TIM_ICFilter = 0x00;
+    //	}
+    TIM_EncoderInterfaceConfig(TIM3, TIM_EncoderMode_TI12, TIM_ICPolarity_Rising,TIM_ICPolarity_Rising);  //配置为编码器模式，计数器在TI1和TI2上升沿处均计数
+
+    TIM_SetCounter(TIM3, 0);		//将脉冲计数值设为零
+    TIM_Cmd(TIM3, ENABLE);			//使能TIM3
+}
+
+// 读取定时器计数值
+uint32_t read_cnt(void)
+{
+    uint32_t encoder_cnt;
+    encoder_cnt = TIM3->CNT;		//读取计数器CNT的值，CNT系uint32_t型的变量
+    TIM_SetCounter(TIM3, 0);		//每一次读取完计数值后将计数值清零，重新开始累加脉冲，方便下一次计数
+    return encoder_cnt;				//返回的值就是本次读到的计数值
+}
+
+//定时器2通道1输入捕获配置
+void TIM2_Cap_Init(u16 arr,u16 psc)
+{
+	TIM_ICInitTypeDef  TIM2_ICInitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure;
+    TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+    NVIC_InitTypeDef NVIC_InitStructure;
+
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);	//使能TIM2时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);  //使能GPIOA时钟
+
+    GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_0;  //PA0 清除之前设置
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //PA0 输入
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_ResetBits(GPIOA,GPIO_Pin_0);						 //PA0 下拉
+
+    //初始化定时器2 TIM2
+    TIM_TimeBaseStructure.TIM_Period = arr; //设定计数器自动重装值
+    TIM_TimeBaseStructure.TIM_Prescaler =psc; 	//预分频器
+    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1; //设置时钟分割:TDTS = Tck_tim
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
+    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
+
+    //初始化TIM2输入捕获参数
+    TIM2_ICInitStructure.TIM_Channel = TIM_Channel_1; //CC1S=01 	选择输入端 IC1映射到TI1上
+    TIM2_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;	//上升沿捕获
+    TIM2_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI; //映射到TI1上
+    TIM2_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;	 //配置输入分频,不分频
+    TIM2_ICInitStructure.TIM_ICFilter = 0x00;//IC1F=0000 配置输入滤波器 不滤波
+    TIM_ICInit(TIM2, &TIM2_ICInitStructure);
+
+    //中断分组初始化
+    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;  //TIM2中断
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;  //先占优先级2级
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;  //从优先级0级
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
+    NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
+
+    TIM_ITConfig(TIM2,TIM_IT_Update|TIM_IT_CC1,ENABLE);//允许更新中断 ,允许CC1IE捕获中断
+
+    TIM_Cmd(TIM2,ENABLE ); 	//使能定时器2
+}
+
+//定时器5中断服务程序
+void TIM2_IRQHandler(void)
+{
+    if((TIM2CH1_CAPTURE_STA&0X80)==0)//还未成功捕获
+    {
+        if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+        {
+            if(TIM2CH1_CAPTURE_STA&0X40)//已经捕获到高电平了
+            {
+                if((TIM2CH1_CAPTURE_STA&0X3F)==0X3F)//高电平太长了
+                {
+                    TIM2CH1_CAPTURE_STA|=0X80;//标记成功捕获了一次
+                    TIM2CH1_CAPTURE_VAL=0XFFFF;
+                } else TIM2CH1_CAPTURE_STA++;
+            }
+        }
+        if (TIM_GetITStatus(TIM2, TIM_IT_CC1) != RESET)//捕获1发生捕获事件
+        {
+            if(TIM2CH1_CAPTURE_STA&0X40)		//捕获到一个下降沿
+            {
+                TIM2CH1_CAPTURE_STA|=0X80;		//标记成功捕获到一次上升沿
+                TIM2CH1_CAPTURE_VAL=TIM_GetCapture1(TIM2);
+                TIM_OC1PolarityConfig(TIM2,TIM_ICPolarity_Rising); //CC1P=0 设置为上升沿捕获
+            } else  								//还未开始,第一次捕获上升沿
+            {
+                TIM2CH1_CAPTURE_STA=0;			//清空
+                TIM2CH1_CAPTURE_VAL=0;
+                TIM_SetCounter(TIM2,0);
+                TIM2CH1_CAPTURE_STA|=0X40;		//标记捕获到了上升沿
+                TIM_OC1PolarityConfig(TIM2,TIM_ICPolarity_Falling);		//CC1P=1 设置为下降沿捕获
+            }
+        }
+    }
+
+    TIM_ClearITPendingBit(TIM2, TIM_IT_CC1|TIM_IT_Update); //清除中断标志位
+}
+
