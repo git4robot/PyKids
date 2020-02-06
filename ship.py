@@ -11,7 +11,7 @@ def one_ship(distence, first_disadvantage_time, second_disadvantage_time, first_
       second_disadvantage_speed = distence / second_disadvantage_time
       second_advantage_speed = second_disadvantage_speed + 2 * water_speed
       second_advantage_time = distence / second_advantage_speed
-      return second_advantage_time
+      print("The second boat's advantage time is: %f hour." % second_advantage_time)
 
 def two_ship(distence, first_round_time, first_more_time, second_speed):
       """
@@ -28,11 +28,11 @@ def two_ship(distence, first_round_time, first_more_time, second_speed):
       second_advantage_time = distence / (second_speed + water_speed)
       second_disadvantage_time = distence / (second_speed - water_speed)
       second_round_time = second_advantage_time + second_disadvantage_time
-      return second_round_time
+      print("The second boat's round time is: %f hour." % second_round_time)
 
 if __name__ == "__main__":
-      print("The second boat's advantage time is: %f hour." % one_ship(360, 18, 12, 16))
-      print("The second boat's round time is: %f hour." % two_ship(360, 35, 5, 16))
+      one_ship(360, 18, 12, 16)
+      two_ship(360, 35, 5.5, 15.75)
 
 
       
