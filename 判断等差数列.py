@@ -1,14 +1,7 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Jan 23 20:54:29 2019
-
-@author: Administrator
-"""
-
 def is_arithmetic_progression(prog):
     _len = len(prog)
     for i in range(0, _len - 2):
-        if prog[i+1] - prog[i] != prog[i+2] - prog[i+1]:
+        if prog[i + 1] - prog[i] != prog[i + 2] - prog[i + 1]:
             return '不是'
     return '是'
  
