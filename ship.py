@@ -1,3 +1,5 @@
+"""A module for ships.
+Version:2.5.2(For python 3.7+)"""
 def one_ship(distence, first_disadvantage_time, second_disadvantage_time, first_advantage_time):
       """
       distance ---------- The two place's distance.
