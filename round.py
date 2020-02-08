@@ -1,3 +1,5 @@
+"""A module for round race.
+Version:1.5.0(For python 3.6+)"""
 def meet(different_dictence, long, a_speed, b_speed, times):
       """
       different_dictence ---------- Two people's distence.
