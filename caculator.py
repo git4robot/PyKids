@@ -1,0 +1,25 @@
+from tkinter import *
+def calculator():
+      tk = Tk(className = '计算器')
+      tk.geometry('230x100')
+      content1 = StringVar()
+      content2 = StringVar()
+      label1 = Label(tk, text = "输入：").grid(row = 0, column = 0)
+      entry1 = Entry(tk,textvariable = content1, width = 20, justify = RIGHT)
+      entry1.grid(row = 0,column = 1)
+      label2 = Label(tk,text = "结果：").grid(row = 1,column = 0)
+      entry2 = Entry(tk,textvariable = content2, width = 20, justify = RIGHT)
+      entry2.grid(row = 1,column = 1)
+      def calc():
+          entry2.delete(0,END)
+          entry2.insert(END, str(eval(entry1.get())))
+      Button(tk,text="+", command = lambda * add: entry1.insert(END, '+')).place(x = 10,y = 50)
+      Button(tk,text="-", command = lambda * sub: entry1.insert(END, '-')).place(x = 40,y = 50)
+      Button(tk,text="*", command = lambda * mul: entry1.insert(END, '*')).place(x = 70,y = 50)
+      Button(tk,text="/", command = lambda * div: entry1.insert(END, '/')).place(x = 100,y = 50)
+      Button(tk,text="()", command = lambda * bra: entry1.insert(END, '()')).place(x = 130,y = 50)
+      Button(tk,text="AC", command = lambda * clear: entry1.delete(0,END)).place(x = 160,y = 50)
+      Button(tk,text="=", command = calc).place(x = 190,y = 50)
+      tk.mainloop()
+
+calculator()
