@@ -1,12 +1,13 @@
 from turtle import *
 from sys import *
+from sys import _getframe
 from os import *
 t = Pen()
 t.hideturtle()
 setup(500, 500)
 
 
-random_functions = ['random_polygon', 'one_random_rectangle']
+random_functions = ['random_polygon', 'random_rectangles', 'one_random_rectangle']
 demo_function = ['demo']
 functions = ['create_canvas', 'create_line', 'create_rectangle', 'create_triangle',
              'create_text', 'create_circle', 'create_semicircle', 'create_polygon',
@@ -20,20 +21,24 @@ if 'create_polygon' in functions:
 if random_functions and demo_function in functions:
       tt_version = 2.0
 if 'one_random_rectangle' in random_functions:
-      tt_version = 2.0
+      tt_version = 2.5
+if 'random_rectangles' in random_functions:
+      tt_version = 3.0
 else:
       tt_version = 0.5
       
 def isWindows64():
       return 'PROGRAMFILES(X86)' in environ
 
-if isWindows64():
-      print('TurtleTk_class %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
+try:
+      if isWindows64():
+            print('TurtleTk %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
+      else:
+            print('TurtleTk %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 32 bit (Intel)] on win32) ' % (tt_version, version[0:5], tt_version))
+except:
+      print('TurtleTk %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
 
-else:
-       print('TurtleTk_class %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 32 bit (Intel)] on win32) ' % (tt_version, version[0:5], tt_version))
-
-      
+  
 """
 Argument:
     x1/y1/x2/y2/points/... ----- The postion of the image.
@@ -51,6 +56,7 @@ Example:
     >>> c = Create()
     >>> c.create_text('HiHello!')
 """
+
 class Create():
       def create_canvas(self, width = 500, height = 500, color = 'white'):
             setup(width, height)
@@ -85,7 +91,8 @@ class Create():
                 t.color(fill)
                 t.end_fill()
             t.penup()
-            done()
+            if _getframe(1).f_code.co_name == '<module>' or _getframe(1).f_code.co_name == 'demo':
+                  done()
 
       def create_triangle(self, x1, y1, x2, y2, x3, y3, speed = 8, thick = 1, outline = 'black', fill = 'white'):
             t.speed(speed)
@@ -175,7 +182,13 @@ class Create():
                 t.end_fill()
             t.penup()
             done()
+
+
 class Random():
+      def random_rectangles(self, many = 25):
+            for x in range(0, many):
+                  self.one_random_rectangle()
+      
       def one_random_rectangle(self):
             from random import randrange, choice
             colors = ['green', 'red', 'blue', 'pink', 'purple', 'violet', 'magenta', 'cyan']
@@ -212,8 +225,10 @@ def demo():
       #c.create_semicircle(0, 0, 75)
       #c.create_semicircle(0, 0, 75, True)
       #c.create_polygon([[0, 0], [0, 100], [100, 100], [100, 0]])
+      #r.random_rectangles()
       #r.one_random_rectangle()
       #r.random_polygon()
 
 if __name__ == '__main__':
       demo()
+
