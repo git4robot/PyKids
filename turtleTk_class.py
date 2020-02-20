@@ -1,3 +1,4 @@
+"""A module to draw tkinter on turtlescreen."""
 from turtle import *
 from sys import *
 from sys import _getframe
