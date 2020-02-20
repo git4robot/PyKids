@@ -33,11 +33,11 @@ def isWindows64():
 
 try:
       if isWindows64():
-            print('TurtleTk %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
+            print('TurtleTk_class %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
       else:
-            print('TurtleTk %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 32 bit (Intel)] on win32) ' % (tt_version, version[0:5], tt_version))
+            print('TurtleTk_class %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 32 bit (Intel)] on win32) ' % (tt_version, version[0:5], tt_version))
 except:
-      print('TurtleTk %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
+      print('TurtleTk_class %s (Run on python %s:20a20b02a02, Feb 02 2020, 20:20:20) [MSC v%s 64 bit (AMD64)] on win64) ' % (tt_version, version[0:5], tt_version))
 
   
 """
