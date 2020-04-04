@@ -1,7 +1,7 @@
 """A module for convert.
 Version:1.5.1(For python 3.2+)
 """
-def to_dec(num, from_radix):
+def to_redix(num, from_radix):
       """
       num ---------- The number for convert.
       from_radix ---------- The radix for convert to DEC.
@@ -13,19 +13,17 @@ def to_dec(num, from_radix):
             dec = dec + int(_list[_len - x - 1]) * (from_radix ** x)
       return dec
 
-def from_dec(num, to_radix):
+def from_redix(num, to_radix):
       """
       num ---------- The number for convert.
       to_radix ---------- The radix to convert with DEC.
       """
       _list = list()
       a = num
-      while True:
+      while a:
             to = a % to_radix
             a = (a - to) // to_radix
             _list.append(str(to))
-            if a == 0:
-                  break
       _list.reverse()
       ret = "".join(_list)
       return int(ret)
@@ -36,16 +34,16 @@ def radix(num, a_radix, b_radix):
       a_radix ---------- The first radix for convert to the second radix.
       b_radix ---------- The second radix for convert to the first radix.
       """
-      dec = to_dec(num, a_radix)
-      radix = from_dec(dec, b_radix)
+      dec = to_redix(num, a_radix)
+      radix = from_redix(dec, b_radix)
       return radix
 
 if __name__ == "__main__":
-      print(to_dec(226, 8))
-      print(to_dec(96, 16))
-      print(to_dec(10010100, 2))
+      print(to_redix(226, 8))
+      print(to_redix(96, 16))
+      print(to_redix(10010100, 2))
       print("-----")
-      print(from_dec(113, 8))
+      print(from_redix(113, 8))
       print("-----")
       print(radix(226, 8, 16))
 
